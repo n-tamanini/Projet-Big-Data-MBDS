@@ -5,7 +5,7 @@ use concessionnaire
 db.createCollection("immatriculations")
 
 // import du fichier immatriculation.csv (dans un invite de commandes)
-mongoimport -d concessionnaire -c immatriculations --type csv --file "C:/Program Files/MongoDB/Server/4.4/bin/Immatriculations.csv" --headerline
+mongoimport -d concessionnaire -c immatriculations --type csv --file "chemin du fichier..../Immatriculations.csv" --headerline
  
 // Vérification de l'import (dans MongoDB)
 db.immatruclations.find()
