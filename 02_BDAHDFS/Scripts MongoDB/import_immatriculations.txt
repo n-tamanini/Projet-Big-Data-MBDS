@@ -2,10 +2,15 @@
 use concessionnaire
 
 // création d'une collection
-db.createCollection("immatriculations")
+db.createCollection("catalogue")
+
+
 
 // import du fichier immatriculation.csv (dans un invite de commandes)
-mongoimport -d concessionnaire -c immatriculations --type csv --file "chemin du fichier..../Immatriculations.csv" --headerline
+
+//Faire la requête suivante dans un cmd
+mongoimport -d concessionnaire -c catalogue --type csv --file "C:/data_group_1/.csv" --headerline
+
  
 // Vérification de l'import (dans MongoDB)
-db.immatruclations.find()
+db.catalogue.find()
