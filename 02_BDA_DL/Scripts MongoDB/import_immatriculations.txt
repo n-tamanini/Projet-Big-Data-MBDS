@@ -1,3 +1,5 @@
+//MongoDB
+
 // création de la base concessionnaire
 use concessionnaire
 
@@ -5,12 +7,32 @@ use concessionnaire
 db.createCollection("catalogue")
 
 
-
 // import du fichier immatriculation.csv (dans un invite de commandes)
 
 //Faire la requête suivante dans un cmd
-mongoimport -d concessionnaire -c catalogue --type csv --file "C:/data_group_1/.csv" --headerline
+mongoimport -d concessionnaire -c catalogue --type csv --file "C:/data_group_1/catalogue.csv" --headerline
 
  
 // Vérification de l'import (dans MongoDB)
 db.catalogue.find()
+
+//HIVE
+
+!connect jdbc:hive2://localhost:10000
+
+
+CREATE TABLE catalogue
+( 
+  marque STRING,
+  name STRING,
+  puissance INT,
+  longueur STRING,
+  nbPlaces INT,
+  nbPortes INT,
+  couleur STRING,
+  occasion STRING,
+  prix INT
+)
+STORED BY 'com.mongodb.hadoop.hive.MongoStorageHandler'
+WITH SERDEPROPERTIES'mongo.columns.mapping'='{"marque":"marque","name":"name", "puissance":"puissance", "longueur":"longueur", "nbPlaces":"nbPlaces", "nbPortes":"nbPortes", "couleur":"couleur", "occasion":"occasion", "prix":"prix"}')
+TBLPROPERTIES('mongo.uri'='mongodb://127.0.0.1:27017/ concessionnaire.catalogue');
