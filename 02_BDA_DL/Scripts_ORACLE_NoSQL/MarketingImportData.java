@@ -69,9 +69,6 @@ import java.util.List;
  public class MarketingImportData {
 
     private final KVStore store;
-
-
-
 	private final String tabMarketing="MARKETING";
 
 
@@ -89,10 +86,7 @@ import java.util.List;
         try {
 
             MarketingImportData mark= new MarketingImportData(args);
-
-	    mark.initMarketingTablesAndData(mark);
-
-
+	        mark.initMarketingTablesAndData(mark);
 
         } catch (RuntimeException e) {
 
@@ -109,8 +103,6 @@ import java.util.List;
      */
 
 	MarketingImportData(String[] argv) {
-
-
 
 		String storeName = "kvstore";
 
@@ -390,7 +382,7 @@ private void insertAmarketingRow(int age, String sexe, String situationFamiliale
 
             marketingRow.put("nbEnfantsAcharge", nbEnfantsAcharge);
 
-            marketingRow.put("2eme voiture", 2eme voiture);
+            marketingRow.put("2emeVoiture", 2emeVoiture);
       
 
 
