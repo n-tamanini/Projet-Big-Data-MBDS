@@ -518,7 +518,7 @@ private void insertAmarketingRow(int age, String sexe, String situationFamiliale
 
                 String situationFamiliale    = marketingRecord.get(3);
 
-                String nbEnfantsAcharge    = marketingRecord.get(4);
+                int nbEnfantsAcharge    = marketingRecord.get(4);
 
                 String 2emeVoiture    = marketingRecord.get(5);
 
