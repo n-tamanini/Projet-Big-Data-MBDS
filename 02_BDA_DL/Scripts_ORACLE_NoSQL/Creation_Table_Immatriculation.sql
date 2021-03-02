@@ -20,12 +20,22 @@ kv->execute 'CREATE TABLE IF NOT EXISTS IMMATRICULATION (
     PRIMARY KEY(immatriculation)
 )';
  
-    javac -g -cp $KVHOME/lib/kvclient.jar:/home/oracle/Projet-Big-Data-MBDS/02_BDAHDFS/Scripts_ORACLE_NoSQL /home/oracle/Projet-Big-Data-MBDS/02_BDAHDFS/Scripts_ORACLE_NoSQL/immatriculation.java
+    export MYPROJECTHOME=/home/oracle/Projet-Big-Data-MBDS
+
+    javac -g -cp $KVHOME/lib/kvclient.jar:$MYPROJECTHOME/02_BDA_DL/Scripts_ORACLE_NoSQL $MYPROJECTHOME/02_BDA_DL/Scripts_ORACLE_NoSQL/Immatriculation.java
+
+    java -Xmx256m -Xms256m  -cp $KVHOME/lib/kvclient.jar:$MYPROJECTHOME/02_BDA_DL/Scripts_ORACLE_NoSQL immatriculation.Immatriculation 
 
 
-    mkdir -p C:/GitHub/Projet-Big-Data-MBDS/02_BDAHDFS
 
- 
-    mv immatriculation*.classs C:/GitHub/Projet-Big-Data-MBDS/02_BDAHDFS
-    
-    jar -cvf immatriculation.jar -C . org
+
+    javac -g -cp $KVHOME/lib/kvclient.jar:$MYPROJECTHOME/02_BDA_DL $MYPROJECTHOME/02_BDA_DL/Scripts_ORACLE_NoSQL/Immatriculation.java
+
+    java -Xmx256m -Xms256m  -cp $KVHOME/lib/kvclient.jar:$MYPROJECTHOME/02_BDA_DL immatriculation.Immatriculation 
+
+
+
+    javac -g -cp $KVHOME/lib/kvclient.jar:$MYPROJECTHOME/02_BDA_DL $MYPROJECTHOME/02_BDA_DL/Scripts_ORACLE_NoSQL/ImmatriculationImportData.java
+
+    java -Xmx256m -Xms256m  -cp $KVHOME/lib/kvclient.jar:$MYPROJECTHOME/02_BDA_DL immat.ImmatriculationImportData 
+
