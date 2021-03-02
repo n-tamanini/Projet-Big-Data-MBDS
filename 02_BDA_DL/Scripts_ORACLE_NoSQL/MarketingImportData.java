@@ -520,7 +520,7 @@ private void insertAmarketingRow(int age, String sexe, String situationFamiliale
 
                 String nbEnfantsAcharge    = marketingRecord.get(4);
 
-                String 2emeVoiture    = Integer.parseInt(marketingRecord.get(5));
+                String 2emeVoiture    = marketingRecord.get(5);
 
 
                 // Add the marketing in the KVStore
