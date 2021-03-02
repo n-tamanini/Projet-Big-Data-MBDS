@@ -19,6 +19,13 @@ kv->execute 'CREATE TABLE IF NOT EXISTS IMMATRICULATION (
     prix INTEGER,
     PRIMARY KEY(immatriculation)
 )';
+ 
+    javac -g -cp $KVHOME/lib/kvclient.jar:C:/GitHub/Projet-Big-Data-MBDS/02_BDAHDFS/Scripts_ORACLE_NoSQL C:/GitHub/Projet-Big-Data-MBDS/02_BDAHDFS/Scripts_ORACLE_NoSQL/immatriculation.java
 
--- Import des données dans la table IMMATRICULATION depuis le fichier csv correspondant
-import -table IMMATRICULATION -file C:\data_group_1\Immatriculation.csv CSV
+
+    mkdir -p C:/GitHub/Projet-Big-Data-MBDS/02_BDAHDFS
+
+ 
+    mv immatriculation*.classs C:/GitHub/Projet-Big-Data-MBDS/02_BDAHDFS
+    
+    jar -cvf immatriculation.jar -C . org
