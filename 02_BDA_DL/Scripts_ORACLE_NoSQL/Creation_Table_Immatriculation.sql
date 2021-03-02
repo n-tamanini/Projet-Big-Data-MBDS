@@ -20,7 +20,7 @@ kv->execute 'CREATE TABLE IF NOT EXISTS IMMATRICULATION (
     PRIMARY KEY(immatriculation)
 )';
  
-    javac -g -cp $KVHOME/lib/kvclient.jar:C:/GitHub/Projet-Big-Data-MBDS/02_BDAHDFS/Scripts_ORACLE_NoSQL C:/GitHub/Projet-Big-Data-MBDS/02_BDAHDFS/Scripts_ORACLE_NoSQL/immatriculation.java
+    javac -g -cp $KVHOME/lib/kvclient.jar:/home/oracle/Projet-Big-Data-MBDS/02_BDAHDFS/Scripts_ORACLE_NoSQL /home/oracle/Projet-Big-Data-MBDS/02_BDAHDFS/Scripts_ORACLE_NoSQL/immatriculation.java
 
 
     mkdir -p C:/GitHub/Projet-Big-Data-MBDS/02_BDAHDFS

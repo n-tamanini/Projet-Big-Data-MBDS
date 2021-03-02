@@ -107,7 +107,7 @@ import java.util.List;
 	public void initImmatriculationTablesAndData(Immatriculation imm) {
 		imm.dropTableImmatriculation();
 		imm.createTableImmatriculation();
-		imm.loadImmatriculationDataFromFile("C:\data_group_1\Immatriculation.csv"); 
+		imm.loadImmatriculationDataFromFile("/home/oracle/Immatriculation.csv"); 
 	}
 
 	/**
