@@ -1,4 +1,4 @@
-package immat;
+package marketing;
 
 
 
@@ -66,13 +66,13 @@ import java.util.List;
 
  
 
- public class ImmatriculationImportData {
+ public class MarketingImportData {
 
     private final KVStore store;
 
 
 
-	private final String tabImmatriculation="IMMATRICULATION";
+	private final String tabMarketing="MARKETING";
 
 
 
@@ -88,9 +88,9 @@ import java.util.List;
 
         try {
 
-            ImmatriculationImportData imm= new ImmatriculationImportData(args);
+            MarketingImportData mark= new MarketingImportData(args);
 
-	    imm.initImmatriculationTablesAndData(imm);
+	    mark.initMarketingTablesAndData(mark);
 
 
 
@@ -108,7 +108,7 @@ import java.util.List;
 
      */
 
-	ImmatriculationImportData(String[] argv) {
+	MarketingImportData(String[] argv) {
 
 
 
@@ -198,25 +198,25 @@ import java.util.List;
 
 	/*
 
-		La méthode initImmatriculationTablesAndData permet :
+		La méthode initMarketingTablesAndData permet :
 
 		- de supprimer les tables si elles existent
 
 		- de créer des tables
 
-        - de charger les données des immatriculations
+        - de charger les données des marketings
 
 	**/
 
 
 
-	public void initImmatriculationTablesAndData(ImmatriculationImportData imm) {
+	public void initMarketingTablesAndData(MarketingImportData mark) {
 
-		imm.dropTableImmatriculation();
+		mark.dropTableMarketing();
 
-		imm.createTableImmatriculation();
+		mark.createTableMarketing();
 
-		imm.loadImmatriculationDataFromFile("/home/oracle/Immatriculation.csv"); 
+		mark.loadmarketingDataFromFile("/home/oracle/marketing.csv"); 
 
 	}
 
@@ -224,19 +224,19 @@ import java.util.List;
 
 	/**
 
-		public void dropTableImmatriculation()
+		public void dropTableMarketing()
 
-		M&thode de suppression de la table immatriculation.
+		M&thode de suppression de la table marketing.
 
 	*/	
 
-	public void dropTableImmatriculation() {
+	public void dropTableMarketing() {
 
 		String statement = null;
 
 		
 
-		statement ="drop table "+tabImmatriculation;
+		statement ="drop table "+tabMarketing;
 
 		executeDDL(statement);
 
@@ -246,48 +246,37 @@ import java.util.List;
 
 	/**
 
-		public void createTableImmatriculation()
+		public void createTableMarketing()
 
-		M&thode de création de la table immatriculation.
+		M&thode de création de la table marketing.
 
 	*/
 
 
 
-	public void createTableImmatriculation() {
+	public void createTableMarketing() {
 
 		String statement = null;
 
-		statement="Create table "+ tabImmatriculation+" ("
+		statement="Create table "+ tabMarketing+" ("
+        + "clientMarketingId INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1 MAXVALUE 10000),"
+		+ "age INTEGER,"
 
-		+ "immatriculation STRING," 
+		+ "sexe STRING,"
 
-		+ "marque STRING,"
+        + "taux INTEGER,"
 
-		+ "nom STRING,"
+        + "situationFamiliale STRING,"
 
-        + "puissance INTEGER,"
+        + "nbEnfantsAcharge INTEGER,"
 
-        + "longueur STRING,"
+        + "2eme voiture STRING,"
 
-        + "nbPlaces INTEGER,"
-
-        + "nbPortes INTEGER,"
-
-        + "couleur STRING,"
-
-        + "occasion STRING,"
-
-        + "prix INTEGER,"
-
-		+ "PRIMARY KEY(immatriculation))";
+		+ "PRIMARY KEY(clientMarketingId))";
 
 		executeDDL(statement);
 
 	}
-
-
-
 
 
 	/**
@@ -344,7 +333,7 @@ import java.util.List;
 
 
 
-private void insertAimmatriculationRow(String immatriculation, String marque, String nom, int puissance, String longueur, int nbPlaces, int nbPortes, String couleur,  String occasion, int prix){
+private void insertAmarketingRow(int age, String sexe, String situationFamiliale, int nbEnfantsAcharge, String 2emeVoiture){
 
         //TableAPI tableAPI = store.getTableAPI();
 
@@ -352,19 +341,13 @@ private void insertAimmatriculationRow(String immatriculation, String marque, St
 
         String statement = null;
 
-        System.out.println("********************************** Dans : insertAimmatriculationRow *********************************" );
+        System.out.println("********************************** Dans : insertAmarketingRow *********************************" );
 
 
 
 
 
         try {
-
-
-
- 
-
-
 
             TableAPI tableH = store.getTableAPI();
 
@@ -374,13 +357,13 @@ private void insertAimmatriculationRow(String immatriculation, String marque, St
 
             // the table using the CREATE TABLE DDL statement.
 
-            Table immatriculationTable = tableH.getTable(tabImmatriculation);
+            Table marketingTable = tableH.getTable(tabMarketing);
 
             
 
             // Get a Row instance
 
-            Row immatriculationRow = immatriculationTable.createRow();
+            Row marketingRow = marketingTable.createRow();
 
             // Now put all of the cells in the row.
 
@@ -396,32 +379,19 @@ private void insertAimmatriculationRow(String immatriculation, String marque, St
 
             // Create one row
 
-            immatriculationRow.put("immatriculation", immatriculation);
+           
+            marketingRow.put("age", age);
 
-            immatriculationRow.put("marque", marque);
+            marketingRow.put("sexe", sexe);
 
-            immatriculationRow.put("nom", nom);
+            marketingRow.put("taux", taux);
 
-            immatriculationRow.put("puissance", puissance);
+            marketingRow.put("situationFamiliale", situationFamiliale);
 
-            immatriculationRow.put("longueur", longueur);
+            marketingRow.put("nbEnfantsAcharge", nbEnfantsAcharge);
 
-            immatriculationRow.put("nbPlaces", nbPlaces);
-
-            immatriculationRow.put("nbPortes", nbPortes);
-
-            immatriculationRow.put("couleur", couleur);
-
-            immatriculationRow.put("occasion", occasion);
-
-            immatriculationRow.put("prix", prix);
-
-            
-
-
-
- 
-
+            marketingRow.put("2eme voiture", 2eme voiture);
+      
 
 
             // Now write the table to the store.
@@ -430,7 +400,7 @@ private void insertAimmatriculationRow(String immatriculation, String marque, St
 
             // this operation will throw an IllegalArgumentException.
 
-            tableH.put(immatriculationRow, null, null);
+            tableH.put(marketingRow, null, null);
 
 
 
@@ -468,19 +438,19 @@ private void insertAimmatriculationRow(String immatriculation, String marque, St
 
 /**
 
-        void loadImmatriculationDataFromFile(String immatriculationDataFileName)
+        void loadmarketingDataFromFile(String marketingDataFileName)
 
-        cette methodes permet de charger les immatriculations depuis le fichier 
+        cette methodes permet de charger les marketings depuis le fichier 
 
-        appelé Immatriculation.csv. 
+        appelé marketing.csv. 
 
-        Pour chaque Immatriculation chargée, la
+        Pour chaque marketing chargée, la
 
-        méthode insertAImmatriculationRow sera appélée
+        méthode insertAmarketingRow sera appélée
 
     */
 
-    void loadImmatriculationDataFromFile(String immatriculationDataFileName){
+    void loadmarketingDataFromFile(String marketingDataFileName){
 
         InputStreamReader     ipsr;
 
@@ -494,7 +464,7 @@ private void insertAimmatriculationRow(String immatriculation, String marque, St
 
         String         ligne; 
 
-        System.out.println("********************************** Dans : loadImmatriculationDataFromFile *********************************" );
+        System.out.println("********************************** Dans : loadmarketingDataFromFile *********************************" );
 
         
 
@@ -502,7 +472,7 @@ private void insertAimmatriculationRow(String immatriculation, String marque, St
 
         try {
 
-            ips  = new FileInputStream(immatriculationDataFileName); 
+            ips  = new FileInputStream(marketingDataFileName); 
 
             ipsr = new InputStreamReader(ips); 
 
@@ -524,45 +494,38 @@ private void insertAimmatriculationRow(String immatriculation, String marque, St
 
             while ((ligne = br.readLine()) != null) { 
 
-                //int puissance, nbPlaces, nbPortes, prix; 
+                //int situationFamiliale, 2eme voiture, nbPortes, prix; 
 
-                //String immatriculation, marque, nom,  longueur,  couleur, occasion, ;
+                //String marketing, age, sexe,  nbEnfantsAcharge,  couleur, occasion, ;
 
 
 
-                ArrayList<String> immatriculationRecord= new ArrayList<String>();    
+                ArrayList<String> marketingRecord= new ArrayList<String>();    
 
                 StringTokenizer val = new StringTokenizer(ligne,",");
 
                 while(val.hasMoreTokens()) { 
 
-                        immatriculationRecord.add(val.nextToken().toString()); 
+                        marketingRecord.add(val.nextToken().toString()); 
 
                 }
 
-                String immatriculation        = immatriculationRecord.get(0);
+                int age    = marketingRecord.get(0);
 
-                String marque    = immatriculationRecord.get(1);
+                String sexe    = marketingRecord.get(1);
 
-                String nom    = immatriculationRecord.get(2);
+                int taux    = marketingRecord.get(2);
 
-                int puissance    = Integer.parseInt(immatriculationRecord.get(3));
+                String situationFamiliale    = marketingRecord.get(3);
 
-                String longueur    = immatriculationRecord.get(4);
+                String nbEnfantsAcharge    = marketingRecord.get(4);
 
-                int nbPlaces    = Integer.parseInt(immatriculationRecord.get(5));
+                String 2emeVoiture    = Integer.parseInt(marketingRecord.get(5));
 
-                int nbPortes    = Integer.parseInt(immatriculationRecord.get(6));
 
-                String couleur    = immatriculationRecord.get(7);
+                // Add the marketing in the KVStore
 
-                String occasion    = immatriculationRecord.get(8);
-
-                int prix    = Integer.parseInt(immatriculationRecord.get(9));
-
-                // Add the immatriculation in the KVStore
-
-                this.insertAimmatriculationRow(immatriculation, marque, nom, puissance, longueur, nbPlaces, nbPortes, couleur, occasion, prix);
+                this.insertAmarketingRow(age, sexe, taux, situationFamiliale, nbEnfantsAcharge, 2emeVoiture);
 
             }
 
