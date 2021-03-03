@@ -34,6 +34,7 @@ import java.util.List;
 
     private final KVStore store;
 	private final String tabMarketing="MARKETING";
+    private final String pathToCSVFile = "/home/oracle/data_group_1/Marketing.csv"
 
     /**
      * Runs the DDL command line program.
@@ -97,7 +98,7 @@ import java.util.List;
 	public void initMarketingTablesAndData(MarketingImportData mark) {
 		mark.dropTableMarketing();
 		mark.createTableMarketing();
-		mark.loadmarketingDataFromFile("/home/oracle/marketing.csv"); 
+		mark.loadmarketingDataFromFile(pathToCSVFile); 
 	}
 	/**
 		public void dropTableMarketing()
@@ -105,6 +106,7 @@ import java.util.List;
 	*/	
 	public void dropTableMarketing() {
 		String statement = null;
+
 		statement ="drop table "+tabMarketing;
 		executeDDL(statement);
 	}
@@ -115,14 +117,14 @@ import java.util.List;
 	public void createTableMarketing() {
 		String statement = null;
 		statement="Create table "+ tabMarketing+" ("
-        + "clientMarketingId INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1 MAXVALUE 10000),"
-		+ "age INTEGER,"
-		+ "sexe STRING,"
-        + "taux INTEGER,"
-        + "situationFamiliale STRING,"
-        + "nbEnfantsAcharge INTEGER,"
-        + "2eme voiture STRING,"
-		+ "PRIMARY KEY(clientMarketingId))";
+        + "CLIENTMARKETINGID INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1 MAXVALUE 10000),"
+		+ "AGE STRING,"
+		+ "SEXE STRING,"
+        + "TAUX STRING,"
+        + "SITUATIONFAMILIALE STRING,"
+        + "NBENFANTSACHARGE STRING,"
+        + "DEUXIEMEVOITURE STRING,"
+		+ "PRIMARY KEY (CLIENTMARKETINGID))";
 		executeDDL(statement);
 	}
 	/**
@@ -132,6 +134,7 @@ import java.util.List;
 	public void executeDDL(String statement) {
 		TableAPI tableAPI = store.getTableAPI();
 		StatementResult result = null;
+
 		System.out.println("****** Dans : executeDDL ********" );
 		try {
 		/*
@@ -149,7 +152,7 @@ import java.util.List;
 		}
     }
 
-private void insertAmarketingRow(int age, String sexe, String situationFamiliale, int nbEnfantsAcharge, String 2emeVoiture){
+private void insertAmarketingRow(String age, String sexe, String taux, String situationFamiliale, String nbEnfantsAcharge, String deuxiemeVoiture){
         //TableAPI tableAPI = store.getTableAPI();
         StatementResult result = null;
         String statement = null;
@@ -167,17 +170,18 @@ private void insertAmarketingRow(int age, String sexe, String situationFamiliale
             // This does NOT actually write the data to
             // the store.
         
-            // Create one row    
+            // Create one row 
             marketingRow.put("age", age);
             marketingRow.put("sexe", sexe);
             marketingRow.put("taux", taux);
             marketingRow.put("situationFamiliale", situationFamiliale);
             marketingRow.put("nbEnfantsAcharge", nbEnfantsAcharge);
-            marketingRow.put("2emeVoiture", 2emeVoiture);
+            marketingRow.put("deuxiemeVoiture", deuxiemeVoiture);
             // Now write the table to the store.
             // "item" is the row's primary key. If we had not set that value,
             // this operation will throw an IllegalArgumentException.
             tableH.put(marketingRow, null, null);
+	    
         } 
         catch (IllegalArgumentException e) {
             System.out.println("Invalid statement:\n" + e.getMessage());
@@ -216,14 +220,14 @@ private void insertAmarketingRow(int age, String sexe, String situationFamiliale
                 while(val.hasMoreTokens()) { 
                         marketingRecord.add(val.nextToken().toString()); 
                 }
-                int age    = marketingRecord.get(0);
-                String sexe    = marketingRecord.get(1);
-                int taux    = marketingRecord.get(2);
-                String situationFamiliale    = marketingRecord.get(3);
-                int nbEnfantsAcharge    = marketingRecord.get(4);
-                String 2emeVoiture    = marketingRecord.get(5);
+                String age = marketingRecord.get(0);
+                String sexe = marketingRecord.get(1);
+                String taux = marketingRecord.get(2);
+                String situationFamiliale = marketingRecord.get(3);
+                String nbEnfantsAcharge = marketingRecord.get(4);
+                String deuxiemeVoiture = marketingRecord.get(5);
                 // Add the marketing in the KVStore
-                this.insertAmarketingRow(age, sexe, taux, situationFamiliale, nbEnfantsAcharge, 2emeVoiture);
+                this.insertAmarketingRow(age, sexe, taux, situationFamiliale, nbEnfantsAcharge, deuxiemeVoiture);
             }
         }
         catch(Exception e){
