@@ -8,7 +8,7 @@
 Beeline version 1.1.0-cdh5.4.0 by Apache Hive 
 
 -- Se connecter à HIVE
-beeline>   !connect jdbc:hive2://localhost:10000
+beeline> !connect jdbc:hive2://localhost:10000
 
 Enter username for jdbc:hive2://localhost:10000: oracle
 Enter password for jdbc:hive2://localhost:10000: ********
