@@ -34,7 +34,7 @@ import java.util.List;
 
     private final KVStore store;
 	private final String tabMarketing="MARKETING";
-    private final String pathToCSVFile = "/home/oracle/data_group_1/Marketing.csv"
+    private final String pathToCSVFile = "/home/oracle/data_group_1/Marketing.csv";
 
     /**
      * Runs the DDL command line program.
