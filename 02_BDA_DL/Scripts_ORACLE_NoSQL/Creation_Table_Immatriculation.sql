@@ -27,3 +27,7 @@ kv->execute 'CREATE TABLE IF NOT EXISTS IMMATRICULATION (
 
     java -Xmx256m -Xms256m  -cp $KVHOME/lib/kvclient.jar:$MYPROJECTHOME/02_BDA_DL/Scripts_ORACLE_NoSQL marketing.MarketingImportData 
 
+
+
+
+/home/oracle/Projet-Big-Data-MBDS/02_BDA_DL/Scripts_ORACLE_NoSQL/marketing

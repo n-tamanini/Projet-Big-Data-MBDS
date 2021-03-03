@@ -35,6 +35,7 @@ import java.util.List;
     private final KVStore store;
 	private final String tabMarketing="MARKETING";
     private final String pathToCSVFile = "/home/oracle/data_group_1/Marketing.csv";
+    private int clientID = 1;
 
     /**
      * Runs the DDL command line program.
@@ -117,7 +118,7 @@ import java.util.List;
 	public void createTableMarketing() {
 		String statement = null;
 		statement="Create table "+ tabMarketing+" ("
-        + "CLIENTMARKETINGID INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1 MAXVALUE 10000),"
+        + "CLIENTMARKETINGID INTEGER,"
 		+ "AGE STRING,"
 		+ "SEXE STRING,"
         + "TAUX STRING,"
@@ -171,6 +172,7 @@ private void insertAmarketingRow(String age, String sexe, String taux, String si
             // the store.
         
             // Create one row 
+            marketingRow.put("clientMarketingID", clientID);
             marketingRow.put("age", age);
             marketingRow.put("sexe", sexe);
             marketingRow.put("taux", taux);
@@ -181,6 +183,7 @@ private void insertAmarketingRow(String age, String sexe, String taux, String si
             // "item" is the row's primary key. If we had not set that value,
             // this operation will throw an IllegalArgumentException.
             tableH.put(marketingRow, null, null);
+            clientID++;
 	    
         } 
         catch (IllegalArgumentException e) {
