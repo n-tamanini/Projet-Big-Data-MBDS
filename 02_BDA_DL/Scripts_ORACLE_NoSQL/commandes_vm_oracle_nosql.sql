@@ -40,12 +40,12 @@ Total tasks:           1
 
 
 -- Connection à Oracle NoSQL
-java -jar $KVHOME/lib/kvstore.jar runadmin -port 5000 -host bigdatalite.localdomain
+[oracle@bigdatalite ~]$ java -jar $KVHOME/lib/kvstore.jar runadmin -port 5000 -host bigdatalite.localdomain
 
-kv->connect store -name kvstore
+kv-> connect store -name kvstore
 
-get table -name MARKETING
-
+-- Vérification du contenu de la table MARKETING
+kv-> get table -name MARKETING
 
 
 {"CLIENTMARKETINGID":10,"AGE":"64","SEXE":"M","TAUX":"559","SITUATIONFAMILIALE":"C�libataire","NBENFANTSACHARGE":"0","DEUXIEMEVOITURE":"false"}
@@ -73,4 +73,7 @@ get table -name MARKETING
 21 rows returned
 
 
+/*
+Ici, nous remarquons que la ligne avec CLIENTMARKETINGID:1 
+*/
 
