@@ -1,4 +1,8 @@
--- Sur la machine virtuelle Oracle@BigDataLite
+-------------------------------------------------------
+-- Import du fichier Marketing.csv dans ORACLE NOSQL --
+-------------------------------------------------------
+
+-- Sur la machine virtuelle Oracle@BigDataLite (en local)
 
 -- Dans un invite de commandes : 
  

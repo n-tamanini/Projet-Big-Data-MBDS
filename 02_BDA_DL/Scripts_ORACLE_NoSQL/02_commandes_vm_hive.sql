@@ -1,20 +1,24 @@
--- Sur la machine virtuelle Oracle@BigDataLite
+------------------------------------------------------------------------------------------------------------------------------------
+-- Création de la table externe HIVE pointant vers la table MARKETING de ORACLE NOSQL (importée dans 01_commandes_oracle_nosql.sql) --
+------------------------------------------------------------------------------------------------------------------------------------
+
+-- Sur la machine virtuelle Oracle@BigDataLite (en local)
 
 [oracle@bigdatalite ~]$ beeline
 Beeline version 1.1.0-cdh5.4.0 by Apache Hive 
 
 -- Se connecter à HIVE
-
 beeline>   !connect jdbc:hive2://localhost:10000
 
 Enter username for jdbc:hive2://localhost:10000: oracle
 Enter password for jdbc:hive2://localhost:10000: ********
 (password : welcome1)
 
+-- Supprimer la table MARKETING si elle existe déjà
+jdbc:hive2://localhost:10000> drop table MARKETING; 
 
-drop table MARKETING; 
-
-CREATE EXTERNAL TABLE MARKETING(
+-- Création de la table externe MARKETING pointant vers la table MARKETING de ORACLE NOSQL
+jdbc:hive2://localhost:10000> CREATE EXTERNAL TABLE MARKETING(
     CLIENTMARKETINGID int,
     AGE string ,
     SEXE string, 
@@ -31,75 +35,12 @@ TBLPROPERTIES (
 "oracle.kv.tableName" = "MARKETING");
 
 
--- Execution
-
-0: jdbc:hive2://localhost:10000> CREATE EXTERNAL TABLE MARKETING(
-. . . . . . . . . . . . . . . .>     CLIENTMARKETINGID int,
-. . . . . . . . . . . . . . . .>     AGE string ,
-. . . . . . . . . . . . . . . .>     SEXE string, 
-. . . . . . . . . . . . . . . .>     TAUX string,
-. . . . . . . . . . . . . . . .>     SITUATIONFAMILIALE string,
-. . . . . . . . . . . . . . . .>     NBENFANTSACHARGE string,
-. . . . . . . . . . . . . . . .>     DEUXIEMEVOITURE string
-. . . . . . . . . . . . . . . .> )
-. . . . . . . . . . . . . . . .> STORED BY 'oracle.kv.hadoop.hive.table.TableStorageHandler'
-. . . . . . . . . . . . . . . .> TBLPROPERTIES (
-. . . . . . . . . . . . . . . .> "oracle.kv.kvstore" = "kvstore",
-. . . . . . . . . . . . . . . .> "oracle.kv.hosts" = "bigdatalite.localdomain:5000", 
-. . . . . . . . . . . . . . . .> "oracle.kv.hadoop.hosts" = "bigdatalite.localdomain/127.0.0.1", 
-. . . . . . . . . . . . . . . .> "oracle.kv.tableName" = "MARKETING");
-INFO  : Compiling command(queryId=hive_20210303050606_23694049-917d-4510-8f5f-844062b2394b): CREATE EXTERNAL TABLE MARKETING(
-CLIENTMARKETINGID int,
-AGE string ,
-SEXE string,
-TAUX string,
-SITUATIONFAMILIALE string,
-NBENFANTSACHARGE string,
-DEUXIEMEVOITURE string
-)
-STORED BY 'oracle.kv.hadoop.hive.table.TableStorageHandler'
-TBLPROPERTIES (
-"oracle.kv.kvstore" = "kvstore",
-"oracle.kv.hosts" = "bigdatalite.localdomain:5000",
-"oracle.kv.hadoop.hosts" = "bigdatalite.localdomain/127.0.0.1",
-"oracle.kv.tableName" = "MARKETING")
-INFO  : Semantic Analysis Completed
-INFO  : Returning Hive schema: Schema(fieldSchemas:null, properties:null)
-INFO  : Completed compiling command(queryId=hive_20210303050606_23694049-917d-4510-8f5f-844062b2394b); Time taken: 0.035 seconds
-INFO  : Executing command(queryId=hive_20210303050606_23694049-917d-4510-8f5f-844062b2394b): CREATE EXTERNAL TABLE MARKETING(
-CLIENTMARKETINGID int,
-AGE string ,
-SEXE string,
-TAUX string,
-SITUATIONFAMILIALE string,
-NBENFANTSACHARGE string,
-DEUXIEMEVOITURE string
-)
-STORED BY 'oracle.kv.hadoop.hive.table.TableStorageHandler'
-TBLPROPERTIES (
-"oracle.kv.kvstore" = "kvstore",
-"oracle.kv.hosts" = "bigdatalite.localdomain:5000",
-"oracle.kv.hadoop.hosts" = "bigdatalite.localdomain/127.0.0.1",
-"oracle.kv.tableName" = "MARKETING")
-INFO  : Starting task [Stage-0:DDL] in serial mode
-INFO  : Completed executing command(queryId=hive_20210303050606_23694049-917d-4510-8f5f-844062b2394b); Time taken: 5.087 seconds
-INFO  : OK
-No rows affected (5.212 seconds)
-
-
 -- Vérification du contenu de la table MARKETING externe dans HIVE
 0: jdbc:hive2://localhost:10000> select * from MARKETING;
 
 
+-- Réponse :
 
-
-INFO  : Compiling command(queryId=hive_20210303050707_cefb6f09-704c-40d0-9851-956978ed00e4): select * from MARKETING
-INFO  : Semantic Analysis Completed
-INFO  : Returning Hive schema: Schema(fieldSchemas:[FieldSchema(name:marketing.clientmarketingid, type:int, comment:null), FieldSchema(name:marketing.age, type:string, comment:null), FieldSchema(name:marketing.sexe, type:string, comment:null), FieldSchema(name:marketing.taux, type:string, comment:null), FieldSchema(name:marketing.situationfamiliale, type:string, comment:null), FieldSchema(name:marketing.nbenfantsacharge, type:string, comment:null), FieldSchema(name:marketing.deuxiemevoiture, type:string, comment:null)], properties:null)
-INFO  : Completed compiling command(queryId=hive_20210303050707_cefb6f09-704c-40d0-9851-956978ed00e4); Time taken: 1.876 seconds
-INFO  : Executing command(queryId=hive_20210303050707_cefb6f09-704c-40d0-9851-956978ed00e4): select * from MARKETING
-INFO  : Completed executing command(queryId=hive_20210303050707_cefb6f09-704c-40d0-9851-956978ed00e4); Time taken: 0.004 seconds
-INFO  : OK
 +------------------------------+----------------+-----------------+-----------------+-------------------------------+-----------------------------+----------------------------+--+
 | marketing.clientmarketingid  | marketing.age  | marketing.sexe  | marketing.taux  | marketing.situationfamiliale  | marketing.nbenfantsacharge  | marketing.deuxiemevoiture  |
 +------------------------------+----------------+-----------------+-----------------+-------------------------------+-----------------------------+----------------------------+--+
