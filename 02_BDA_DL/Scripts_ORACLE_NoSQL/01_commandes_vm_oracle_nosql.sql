@@ -11,6 +11,9 @@
     -- Executer le code java pour importer la table MARKETING à partir du fichier csv
     [oracle@bigdatalite ~]$ java -Xmx256m -Xms256m  -cp $KVHOME/lib/kvclient.jar:$MYPROJECTHOME/02_BDA_DL/Scripts_ORACLE_NoSQL marketing.MarketingImportData 
 
+/*
+
+REPONSE : 
 
 
 ****** Dans : executeDDL ********
@@ -32,10 +35,8 @@ Total tasks:           1
 
 ********************************** Dans : loadmarketingDataFromFile *********************************
 ********************************** Dans : insertAmarketingRow *********************************
-***
-********************************** Dans : insertAmarketingRow *********************************
-
-
+                                            ...
+*/
 
 
 
@@ -47,7 +48,7 @@ kv-> connect store -name kvstore
 -- Vérification du contenu de la table MARKETING
 kv-> get table -name MARKETING
 
-
+-- Réponse :
 {"CLIENTMARKETINGID":10,"AGE":"64","SEXE":"M","TAUX":"559","SITUATIONFAMILIALE":"C�libataire","NBENFANTSACHARGE":"0","DEUXIEMEVOITURE":"false"}
 {"CLIENTMARKETINGID":19,"AGE":"54","SEXE":"F","TAUX":"452","SITUATIONFAMILIALE":"En Couple","NBENFANTSACHARGE":"3","DEUXIEMEVOITURE":"true"}
 {"CLIENTMARKETINGID":14,"AGE":"19","SEXE":"F","TAUX":"212","SITUATIONFAMILIALE":"C�libataire","NBENFANTSACHARGE":"0","DEUXIEMEVOITURE":"false"}
@@ -72,8 +73,8 @@ kv-> get table -name MARKETING
 
 21 rows returned
 
-
 /*
-Ici, nous remarquons que la ligne avec CLIENTMARKETINGID:1 
+Ici, nous remarquons que la ligne avec CLIENTMARKETINGID:1 est la ligne des entêtes qui n'aurait pas dû être importée. 
+Nous décidons de la laisser et de la trier plus tard, quand la table MARKETING aura été importée dans HIVE puis dans Oracle SQL.
 */
 
