@@ -22,13 +22,13 @@ CREATE TABLE CLIENT (
 -- Import des données dans la table client depuis Clients_0.csv via sqlloader
 -- Les données Clients_0.csv ont été placées dans le répertoire suivant sur la machine virtuelle (en local) : /home/oracle/data_group_1/Clients_0.csv
 
--- Dans un invite de commandes sur la machine virtuelle : 
+-- Dans un invite de commandes sur la machine virtuelle (oracle@bigdatalite): 
 MYDBUSER=GROUPE1_PROJET
 MYDB=orcl
 MYDBUSERPASS=GROUPE1_PROJET01
 MYPROJECTPATH=/home/oracle/Projet-Big-Data-MBDS
 
-cd $MYPROJECTPATH/02_BDA_DL/Scripts_SGBDR_Oracle_12C/2_Import_fichier_client_table_interne
+cd $MYPROJECTPATH/02_BDA_DL/Scripts_SGBDR_Oracle_12C/1_Import_fichier_client_table_interne
 
 sqlldr userid=$MYDBUSER@$MYDB/$MYDBUSERPASS control=control.ctl log=track.log
 

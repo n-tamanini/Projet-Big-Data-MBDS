@@ -5,16 +5,24 @@
 -- Dans la machine virtuelle oracle@bigdatalite (local)
 -- Dans un invite de commandes
 -- Connexion à l'utilisateur GROUPE1_PROJET
-sqlplus GROUPE1_PROJET@orcl/GROUPE1_PROJET01
+sqlplus /nolog
 
+define MYDBUSER=GROUPE1_PROJET
+define MYDB=orcl
+define MYDBUSERPASS=GROUPE1_PROJET01
+
+connect &MYDBUSER@&MYDB/@MYDBUSERPASS
 
 -- On crée les deux directories suivantes :
 -- ORACLE_BIGDATA_CONFIG et 
 -- ORA_BIGDATA_CL_bigdatalite. 
 -- La directorie ORACLE_BIGDATA_CONFIG sert à stocker les lignes
 -- rappatriées des bases distantes.
+
+-- **************** ATTENTION, N'EXECUTER CE CODE QU'UNE FOIS **************** --
 create or replace directory ORACLE_BIGDATA_CONFIG as '/u01/bigdatasql_config';
 create or replace directory "ORA_BIGDATA_CL_bigdatalite" as '';
+-- *************************************************************************** --
 
 -- Vérification
 select DIRECTORY_NAME from dba_directories;
