@@ -44,16 +44,10 @@ desc IMMATRICULATION_EXT;
 
 SELECT * FROM IMMATRICULATION_EXT WHERE IMMATRICULATION = '4030 YB 47';
 
-IMMATRICULATION 										     MARQUE	     NOM			     PUISSANCE LONGUEUR 	      NBPLACES
------------------------------------------------------------------------------------------------- --------------- ------------------------------ ---------- -------------------- ----------
-  NBPORTES COULEUR    OCCASION	       PRIX
----------- ---------- ---------- ----------
-4030 YB 47											     Volvo	     S80 T6				   272 tr?longue		     5
-	 5 bleu       false	      50500
-
-
-
-
+IMMATRICULATION		MARQUE    NOM      PUISSANCE 	LONGUEUR 	 NBPLACES  NBPORTES COULEUR    OCCASION	  PRIX
+---------------    	--------- -------  ---------- 	------------ --------  -------- ---------- ---------- ----------
+4030 YB 47		   	Volvo     S80 T6   272 			tr?longue	  5         5 		bleu       false     50500
+	 
 
 select count (*) from IMMATRICULATION_EXT;
 
