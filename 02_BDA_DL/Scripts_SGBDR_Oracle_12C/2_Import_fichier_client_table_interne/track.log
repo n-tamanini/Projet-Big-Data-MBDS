@@ -1,0 +1,924 @@
+
+SQL*Loader: Release 12.1.0.2.0 - Production on Thu Mar 4 04:36:21 2021
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+Control File:   control.ctl
+Data File:      /home/oracle/data_group_1/Clients_0.csv
+  Bad File:     Clients_0.bad
+  Discard File:  none specified
+ 
+ (Allow all discards)
+
+Number to load: ALL
+Number to skip: 1
+Errors allowed: 100000
+Bind array:     64 rows, maximum of 256000 bytes
+Continuation:    none specified
+Path used:      Conventional
+
+Table CLIENT, loaded from every logical record.
+Insert option in effect for this table: INSERT
+TRAILING NULLCOLS option in effect
+
+   Column Name                  Position   Len  Term Encl Datatype
+------------------------------ ---------- ----- ---- ---- ---------------------
+AGE                                 FIRST     *   ,  O(") CHARACTER            
+SEXE                                 NEXT     *   ,  O(") CHARACTER            
+TAUX                                 NEXT     *   ,  O(") CHARACTER            
+SITUATIONFAMILIALE                   NEXT     *   ,  O(") CHARACTER            
+NBENFANTSACHARGE                     NEXT     *   ,  O(") CHARACTER            
+DEUXIEMEVOITURE                      NEXT     *   ,  O(") CHARACTER            
+IMMATRICULATION                      NEXT     *   ,  O(") CHARACTER            
+
+Record 104: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 109: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 351: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 1025: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 1068: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 1372: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 1605: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 3352: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 3777: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 3886: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 4476: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 5211: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 5427: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 5467: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 5484: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 5619: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 6295: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 7108: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 7272: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 7322: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 7369: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 7383: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 7694: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 8948: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 9156: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 9818: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 9850: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 10619: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 10700: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 10841: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 11050: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 11735: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 12323: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 12352: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 12601: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 12997: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 13061: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 13410: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 13540: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 13562: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 14093: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 14244: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 14831: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 17078: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 17436: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 17723: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 18412: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 18702: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 19242: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 19927: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 19984: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 20002: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 20569: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 20688: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 20706: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 20748: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 21146: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 21498: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 21833: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 21910: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 22095: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 23235: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 23974: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 24565: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 25131: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 25773: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 25962: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 26081: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 26112: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 26182: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 26460: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 26578: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 26609: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 26616: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 26746: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 26798: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 27152: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 27251: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 27293: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 27977: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 29309: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 29597: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 29661: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 29877: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 29966: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 30287: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 30658: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 31584: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 31840: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 32554: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 33111: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 33187: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 33451: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 34045: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 34476: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 34531: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 35126: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 35502: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 35674: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 35958: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 37043: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 37138: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 37268: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 37309: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 37328: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 38256: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 38460: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 39074: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 39353: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 39823: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 40080: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 40193: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 40367: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 40872: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 41024: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 41499: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 41712: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 41835: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 42363: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 42567: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 42618: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 42877: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 43242: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 43403: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 43800: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 44647: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 45079: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 45221: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 45418: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 45576: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 45695: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 45810: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 45938: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 46391: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 46394: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 47412: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 47450: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 48270: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 48747: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 49069: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 49211: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 49758: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 49851: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 50134: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 50195: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 50699: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 51337: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 51368: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 51400: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 51686: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 51840: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 52548: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 53014: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 53320: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 53372: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 53395: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 53519: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 53805: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 54040: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 54379: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 55142: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 55814: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 56543: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 57793: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 57812: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 58423: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 58447: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 58492: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 58671: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 59898: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 60594: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 60608: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 60750: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 60830: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 61084: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 61454: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 61662: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 61676: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 61748: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 62076: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 62511: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 62996: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 63021: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 63112: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 63450: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 63475: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 64558: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 64806: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 65189: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 65291: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 66178: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 66298: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 66378: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 66784: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 67285: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 67558: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 67839: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 67849: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 68685: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 69332: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 69655: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 70418: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 70615: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 70773: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 70895: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 70923: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 71035: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 71318: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 71690: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 71710: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 72498: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 72944: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 73416: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 73945: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 74095: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 74408: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 74780: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 75563: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 75620: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 75748: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 76560: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 76598: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 76844: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 77219: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 77578: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 77596: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 77727: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 77932: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 77972: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 78604: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 78781: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 78816: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 79151: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 80015: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 80293: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 80359: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 80625: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 81224: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 81310: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 81803: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 82021: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 82484: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 82671: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 82838: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 83637: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 83827: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 83900: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 84146: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 85024: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 85145: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 85404: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 85452: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 86501: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 87196: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 87704: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 87791: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 88803: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 88811: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 89074: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 89774: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 90138: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 90199: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 90316: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 90609: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 90960: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 91158: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 91545: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 91892: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 92217: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 92240: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 93518: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 93633: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 94026: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 94033: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 94178: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 95300: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 95956: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 96170: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 96469: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 96508: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 97253: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 97482: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 97716: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 98047: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 98133: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 98169: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+Record 98213: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 98265: Rejected - Error on table CLIENT, column AGE.
+ORA-01722: invalid number
+
+Record 99010: Rejected - Error on table CLIENT, column NBENFANTSACHARGE.
+ORA-01722: invalid number
+
+Record 99942: Rejected - Error on table CLIENT, column TAUX.
+ORA-01722: invalid number
+
+
+Table CLIENT:
+  99710 Rows successfully loaded.
+  290 Rows not loaded due to data errors.
+  0 Rows not loaded because all WHEN clauses were failed.
+  0 Rows not loaded because all fields were null.
+
+
+Space allocated for bind array:                 115584 bytes(64 rows)
+Read   buffer bytes: 1048576
+
+Total logical records skipped:          1
+Total logical records read:        100000
+Total logical records rejected:       290
+Total logical records discarded:        0
+
+Run began on Thu Mar 04 04:36:21 2021
+Run ended on Thu Mar 04 04:36:32 2021
+
+Elapsed time was:     00:00:10.60
+CPU time was:         00:00:01.42
