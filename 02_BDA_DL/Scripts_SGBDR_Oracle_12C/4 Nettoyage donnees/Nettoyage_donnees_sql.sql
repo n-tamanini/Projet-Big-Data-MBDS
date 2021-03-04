@@ -5,7 +5,7 @@
 -- Les 'féminin' et 'Masculin' changent pour F et M
 UPDATE CLIENT
 SET sexe = 'F'
-WHERE sexe = 'Féminin';
+WHERE sexe LIKE 'F%minin';
 
 UPDATE CLIENT
 SET sexe = 'M'
@@ -29,14 +29,14 @@ FROM CLIENT;
 
 --Les 'Seule' et 'Seul' changent pour 'Célibataire'
 UPDATE CLIENT
-SET SITUATIONFAMILIALE = 'Célibataire'
+SET SITUATIONFAMILIALE = 'Celibataire'
 WHERE SITUATIONFAMILIALE='Seule' OR 'Seul';
 
  
 --Suppression des données non conformes
 DELETE *
 FROM CLIENT
-WHERE SITUATIONFAMILIALE = 'Divorcée';
+WHERE SITUATIONFAMILIALE LIKE 'Divorc%e';
 
 
 --NETTOYAGE COLONNE NBENFANTSACHARGE
