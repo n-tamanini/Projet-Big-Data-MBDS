@@ -22,3 +22,5 @@ WITH SERDEPROPERTIES('mongo.columns.mapping'='{"marque":"marque", "nom":"nom", "
 TBLPROPERTIES(
   "mongo.uri"="mongodb://198.168.1.11:27017/concessionnaire.catalogue"
   );
+
+
