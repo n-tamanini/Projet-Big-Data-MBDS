@@ -1,4 +1,4 @@
---NETTOYAGE TABLE IMMATRICULATION
+--************ NETTOYAGE TABLE IMMATRICULATION ************--
 
 
 --SUPPRESSION DES DOUBLONS
@@ -38,6 +38,54 @@ FROM IMMATRICULATION;
 
 
 
+--************  NETTOYAGE TABLE CLIENT ************--
+
+-- NETTOYAGE COLONNE SEXE
+
+-- Les 'féminin' et 'Masculin' changent pour F et M
+UPDATE CLIENT
+SET sexe = 'F'
+WHERE sexe = 'Féminin';
+
+UPDATE CLIENT
+SET sexe = 'M'
+WHERE sexe = 'Masculin';
+
+-- Suppression des données non conformes
+DELETE * FROM CLIENT
+WHERE sexe != 'M' OR sexe != 'F';
+
+-- NETTOYAGE COLONNE X2emeVoiture
+-- Suppression des données non conformes
+DELETE deuxiemeVoiture FROM CLIENT
+WHERE deuxiemeVoiture != 'true' OR deuxiemeVoiture != 'false';
 
 
+--NETTOYAGE COLONNE SITUATIONFAMILIALE
+--Vérification des données
+
+SELECT DISTINCT SITUATIONFAMILIALE
+FROM CLIENT;
+
+--Les 'Seule' et 'Seul' changent pour 'Célibataire'
+UPDATE CLIENT
+SET SITUATIONFAMILIALE = 'Célibataire'
+WHERE SITUATIONFAMILIALE='Seule' OR 'Seul';
+
+ 
+--Suppression des données non conformes
+DELETE *
+FROM CLIENT
+WHERE SITUATIONFAMILIALE = 'Divorcée';
+
+
+--NETTOYAGE COLONNE NBENFANTSACHARGE
+
+--Suppression des données invalides
+DELETE *
+FROM CLIENT
+WHERE NBENFANTSACHARGE NOT BETWEEN 0 AND 4;
+
+
+-- ************ PAS DE NETTOYAGE TABLE MARKETING POUR GARDER DES DONNEES ************ --
 
