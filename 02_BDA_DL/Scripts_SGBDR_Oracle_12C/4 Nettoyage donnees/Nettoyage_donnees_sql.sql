@@ -2,7 +2,7 @@
 
 -- NETTOYAGE COLONNE SEXE
 
--- Les 'féminin' et 'Masculin' changent pour F et M
+-- Les 'féminin', 'Masculin', 'Femme' et 'Homme' changent pour F et M
 UPDATE CLIENT
 SET sexe = 'F'
 WHERE sexe LIKE 'F%minin';
