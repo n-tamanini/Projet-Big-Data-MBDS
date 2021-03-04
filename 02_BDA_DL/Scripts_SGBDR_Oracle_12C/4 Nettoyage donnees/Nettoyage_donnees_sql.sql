@@ -11,6 +11,14 @@ UPDATE CLIENT
 SET sexe = 'M'
 WHERE sexe = 'Masculin';
 
+UPDATE CLIENT
+SET sexe = 'F'
+WHERE sexe LIKE 'Femme';
+
+UPDATE CLIENT
+SET sexe = 'M'
+WHERE sexe = 'Homme';
+
 -- Suppression des données non conformes
 DELETE * FROM CLIENT
 WHERE sexe != 'M' OR sexe != 'F';
