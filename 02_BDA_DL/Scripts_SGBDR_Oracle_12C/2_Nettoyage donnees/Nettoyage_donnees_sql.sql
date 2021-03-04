@@ -1,3 +1,15 @@
+-- Dans la machine virtuelle oracle@bigdatalite (local)
+-- Dans un invite de commandes
+-- Connexion à l'utilisateur GROUPE1_PROJET
+sqlplus /nolog
+
+define MYDBUSER=GROUPE1_PROJET
+define MYDB=orcl
+define MYDBUSERPASS=GROUPE1_PROJET01
+
+connect &MYDBUSER@&MYDB/@MYDBUSERPASS
+
+
 --************  NETTOYAGE TABLE CLIENT ************--
 
 -- NETTOYAGE COLONNE SEXE
