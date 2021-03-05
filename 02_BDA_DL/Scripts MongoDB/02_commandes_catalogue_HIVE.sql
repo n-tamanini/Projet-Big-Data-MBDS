@@ -20,7 +20,7 @@ CREATE EXTERNAL TABLE catalogue
 STORED BY 'com.mongodb.hadoop.hive.MongoStorageHandler'
 WITH SERDEPROPERTIES('mongo.columns.mapping'='{"marque":"marque", "nom":"nom", "puissance":"puissance", "longueur":"longueur", "nbPlaces":"nbPlaces", "nbPortes":"nbPortes", "couleur":"couleur", "occasion":"occasion", "prix":"prix"}')
 TBLPROPERTIES(
-  "mongo.uri"="mongodb://198.168.1.11:27017/concessionnaire.catalogue"
-  );
+  "mongo.uri"="mongodb://localhost:27017/concessionnaire.catalogue"
+);
 
 
