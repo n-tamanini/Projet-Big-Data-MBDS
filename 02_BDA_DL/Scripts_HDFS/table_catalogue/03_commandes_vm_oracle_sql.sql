@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------------------------------------------------------------
--- Création de la table externe ORACLE SQL pointant vers la table IMMATRICULATION de HIVE (importée dans 02_commandes_vm_hive.sql) --
+-- Création de la table externe ORACLE SQL pointant vers la table CATALOGUE de HIVE (importée dans 02_commandes_vm_hive.sql) --
 -------------------------------------------------------------------------------------------------------------------------------------
 
 -- Dans la machine virtuelle oracle@bigdatalite (local)
@@ -11,7 +11,7 @@ define MYDBUSER=GROUPE1_PROJET
 define MYDB=orcl
 define MYDBUSERPASS=GROUPE1_PROJET01
 
-connect &MYDBUSER@&MYDB/@MYDBUSERPASS
+connect &MYDBUSER@&MYDB/&MYDBUSERPASS
 
 -- On crée les deux directories suivantes :
 -- ORACLE_BIGDATA_CONFIG et 
@@ -57,3 +57,44 @@ REJECT LIMIT UNLIMITED;
 
 -- Vérification de la structure de la table CATALOGUE_EXT
 desc CATALOGUE_EXT;
+
+Name      Null? Type         
+--------- ----- ------------ 
+MARQUE          VARCHAR2(15) 
+NOM             VARCHAR2(30) 
+PUISSANCE       NUMBER(3)    
+LONGUEUR        VARCHAR2(20) 
+NBPLACES        NUMBER(2)    
+NBPORTES        NUMBER(2)    
+COULEUR         VARCHAR2(10) 
+OCCASION        VARCHAR2(10) 
+PRIX            NUMBER(8) 
+
+
+-- Vérification du nombre de lignes de la table CATALOGUE_EXT
+SELECT COUNT(*) FROM CATALOGUE_EXT;
+
+  COUNT(*)
+----------
+       271
+
+
+-- Vérification du contenu de la table CATALOGUE_EXT
+set linesize 180
+set pagesize 100
+SELECT * FROM CATALOGUE_EXT WHERE MARQUE = 'Volvo';
+
+MARQUE		NOM				PUISSANCE LONGUEUR		 NBPLACES   NBPORTES COULEUR	OCCASION	 PRIX
+--------------- ------------------------------ ---------- -------------------- ---------- ---------- 
+Volvo		S80 T6				      272 tr?longue			5	   5 blanc	false		50500
+Volvo		S80 T6				      272 tr?longue			5	   5 noir	false		50500
+Volvo		S80 T6				      272 tr?longue			5	   5 rouge	false		50500
+Volvo		S80 T6				      272 tr?longue			5	   5 gris	true		35350
+Volvo		S80 T6				      272 tr?longue			5	   5 bleu	true		35350
+Volvo		S80 T6				      272 tr?longue			5	   5 gris	false		50500
+Volvo		S80 T6				      272 tr?longue			5	   5 bleu	false		50500
+Volvo		S80 T6				      272 tr?longue			5	   5 rouge	true		35350
+Volvo		S80 T6				      272 tr?longue			5	   5 blanc	true		35350
+Volvo		S80 T6				      272 tr?longue			5	   5 noir	true		35350
+
+10 rows selected.

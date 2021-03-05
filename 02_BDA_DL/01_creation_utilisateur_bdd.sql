@@ -15,7 +15,7 @@ define MYCDBUSER=system
 define MYCDBUSERPASS=welcome1
 
 -- se connecter sur la base orcl en étant system
-connect &MYCDBUSER@&MYDB/@MYCDBUSERPASS
+connect &MYCDBUSER@&MYDB/&MYCDBUSERPASS
 
 -- Création du user GROUPE1_PROJET qui va contenir toutes les tables externes et internes dans ORACLE SQL
 CREATE USER &MYDBUSER IDENTIFIED BY &MYDBUSERPASS 

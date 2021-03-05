@@ -4,7 +4,7 @@ define MYDBUSER=GROUPE1_PROJET
 define MYDB=orcl
 define MYDBUSERPASS=GROUPE1_PROJET01
 
-connect &MYDBUSER@&MYDB/@MYDBUSERPASS
+connect &MYDBUSER@&MYDB/&MYDBUSERPASS
 
 -- Création de la table client (dans ORACLE SQL sur la machine virtuelle)
 DROP TABLE CLIENT CASCADE CONSTRAINTS;
@@ -42,7 +42,7 @@ define MYDBUSER=GROUPE1_PROJET
 define MYDB=orcl
 define MYDBUSERPASS=GROUPE1_PROJET01
 
-connect &MYDBUSER@&MYDB/@MYDBUSERPASS
+connect &MYDBUSER@&MYDB/&MYDBUSERPASS
 
 SQL> select count (*) from client;
 

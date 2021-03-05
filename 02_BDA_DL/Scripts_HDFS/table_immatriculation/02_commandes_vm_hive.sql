@@ -1,4 +1,4 @@
--- création de la table externe HIVE pointant vers le fichier HDFS /projet_big_data/Immatriculations.csv
+-- création de la table externe HIVE pointant vers le fichier HDFS /projet_big_data_immatriculation/Immatriculations.csv
 
 
 -- lancer Hive
@@ -21,7 +21,7 @@ drop table IMMATRICULATION;
 
 CREATE EXTERNAL TABLE IMMATRICULATION (IMMATRICULATION STRING, MARQUE STRING,  NOM STRING, PUISSANCE  int, LONGUEUR STRING, NBPORTES int, NBPLACES int, COULEUR STRING, OCCASION STRING, PRIX INT)
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
-STORED AS TEXTFILE LOCATION 'hdfs:/projet_big_data';
+STORED AS TEXTFILE LOCATION 'hdfs:/projet_big_data_immatriculation';
 
 -- Vérification de la table externe IMMATRICULATION dans HIVE
 
@@ -32,7 +32,7 @@ jdbc:hive2://localhost:10000> SELECT COUNT(*) FROM IMMATRICULATION;
 +----------+--+
 | 2000001  |
 +----------+--+
-1 row selected (92.616 seconds)
+1 row selected (48.935 seconds)
 
 
 jdbc:hive2://localhost:10000> SELECT * FROM IMMATRICULATION WHERE IMMATRICULATION.IMMATRICULATION = '4030 YB 47';
@@ -42,4 +42,4 @@ jdbc:hive2://localhost:10000> SELECT * FROM IMMATRICULATION WHERE IMMATRICULATIO
 +----------------------------------+-------------------------+----------------------+----------------------------+---------------------------+---------------------------+---------------------------+--------------------------+---------------------------+-----------------------+--+
 | 4030 YB 47                       | Volvo                   | S80 T6               | 272                        | tr�s longue               | 5                         | 5                         | bleu                     | false                     | 50500                 |
 +----------------------------------+-------------------------+----------------------+----------------------------+---------------------------+---------------------------+---------------------------+--------------------------+---------------------------+-----------------------+--+
-1 row selected (2.455 seconds)
+1 row selected (2.409 seconds)

@@ -11,7 +11,7 @@ define MYDBUSER=GROUPE1_PROJET
 define MYDB=orcl
 define MYDBUSERPASS=GROUPE1_PROJET01
 
-connect &MYDBUSER@&MYDB/@MYDBUSERPASS
+connect &MYDBUSER@&MYDB/&MYDBUSERPASS
 
 -- On crée les deux directories suivantes :
 -- ORACLE_BIGDATA_CONFIG et 
