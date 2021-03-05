@@ -1,0 +1,22 @@
+Dans TNSNAMES.ORA, on définit l'alias suivant (192.168.1.46 est l'adresse IP de la machine virtuelle bigdatalite installée en local en mode d'accès réseau par pont): 
+
+ORCLBIGDATALITEVM =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.1.46)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = orcl)
+    )
+  )
+
+
+
+connexion avec sqlplus
+
+Dans un invite de commandes : 
+
+sqlplus /nolog
+
+connect GROUPE1_PROJET@ORCLBIGDATALITEVM/GROUPE1_PROJET01

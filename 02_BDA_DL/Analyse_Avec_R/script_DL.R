@@ -35,36 +35,18 @@ library(pROC)
 library(caret)
 library(RODBC)
 
-# Chargement des données CATALOGUE
+#------------------------------------------------------------------------------------------------------------#
+#  Import des dataframes client, marketing, immatriculations, catalogue depuis une base de données ORACLE SQL      
+#------------------------------------------------------------------------------------------------------------#
 
-catalogue <- read.csv(
-  "Catalogue.csv", 
-  header = TRUE, 
-  sep = ",", 
-  dec = "."
-)
 
-# Chargement des données IMMATRICULATIONS
 
-immatriculations <- read.csv(
-  "Immatriculations.csv", 
-  header = TRUE, 
-  sep = ",", 
-  dec = "."
-)
 
-# Chargement des données MARKETING
 
-marketing <- read.csv(
-  "Marketing.csv", 
-  header = TRUE, 
-  sep = ",", 
-  dec = "."
-)
 
-# Chargement des données CLIENTS_0
 
-client <- read.csv("Clients_0.csv", header = TRUE, sep = ",", dec = ".")
+
+
 
 
 #--------------------------------------#
@@ -73,7 +55,7 @@ client <- read.csv("Clients_0.csv", header = TRUE, sep = ",", dec = ".")
 
 
 #--------------------------------------#
-#             CATALOGUE.CSV
+#              CATALOGUE
 #--------------------------------------#
 
 # Test pour identifier la présence de doublons
@@ -156,7 +138,7 @@ summary(catalogue$prix)
 
 
 #--------------------------------------#
-#         IMMATRICULATIONS.CSV
+#           IMMATRICULATIONS
 #--------------------------------------#
 
 
@@ -262,7 +244,7 @@ summary(immatriculations$prix)
 
 
 #--------------------------------------#
-#            CLIENTS_0.CSV
+#               CLIENTS
 #--------------------------------------#
 
 
@@ -271,55 +253,14 @@ summary(client)
 View(client)
 qplot(nbEnfantsAcharge, data=client)
 
-#    TRI AGE 
-# Accepter que les valeurs comprises entre 18 et 84.
-client <- client%>% filter(client$age %in% (18:84))
-client$age <- as.numeric(client$age)
-
-# TRI TAUX
-# Accepter les valeurs comprises entre 544 et 74 185.
-client <- client%>% filter(client$taux %in% (544:74185))
-client$taux <- as.numeric(client$taux)
-
-# TRI NBENFANTSACHARGE
-# Accepte que les valeurs comprises entre 0 et 4
-client <- client%>% filter(client$nbEnfantsAcharge %in% (0:4))
-client$nbEnfantsAcharge <- as.numeric(client$nbEnfantsAcharge)
-qplot(nbEnfantsAcharge, data=client)
-
-#    TRI SEXE
-# Remplacer les valeurs mal saisies au format F pour Femme et M pour Masculin
-client$sexe <- ifelse(client$sexe=="Masculin", "M", client$sexe)
-client$sexe <- ifelse(client$sexe=="Homme", "M", client$sexe)
-client$sexe <- ifelse(client$sexe=="Féminin", "F", client$sexe)
-client$sexe <- ifelse(client$sexe=="Femme", "F", client$sexe)
-
-# Suppression des autres valeurs de sexe (autres que F et M)
-client <- subset(client, client$sexe == "F" | client$sexe == "M" )
-
-#   TRI SITUATION FAMILIALE
-# Mise en forme de la catégoie en: "En couple", "Célibataire", "Divorcée"
-client$situationFamiliale <- ifelse(client$situationFamiliale=="Seule", "Célibataire", client$situationFamiliale)
-client$situationFamiliale <- ifelse(client$situationFamiliale=="Seul", "Célibataire", client$situationFamiliale)
-
-# Suppression des autres valeurs non listé dans la catégorie
-client <- subset(client, client$situationFamiliale == "Célibataire" | client$situationFamiliale == "Divorcée" | situationFamiliale == "En Couple")
-
-# TRI X2EME.VOITURE
-#Accepte que les valeurs égale à "tru" ou "false"
-client <- subset(client, client$X2eme.voiture  == "true" | client$X2eme.voiture  == "false")
-
-# TRI IMMATRICULATION
-# Garder que les plaques d'immatriculations de 10 charactères
-client <- client[str_count(client$immatriculation) == 10,]
-
-# Test pour identifier la présence de doublons
-sum(duplicated(client$immatriculation))
-
-# suppression des lignes dupliquées à l'aide de la librairie dplyr
-client <- distinct(client, immatriculation, .keep_all = TRUE)
+# Les données CLIENTS ont déjà été nettoyées dans ORACLE SQL
 
 
+#--------------------------------------#
+#             MARKETING
+#--------------------------------------#
+
+# FAUT RETIRER LA COLONNE CLIENTMARKETINGID
 
 
 #-----------------------------------------------#
