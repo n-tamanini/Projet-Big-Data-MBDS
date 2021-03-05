@@ -19,7 +19,8 @@ install.packages("kknn")
 install.packages("ROCR")
 install.packages("pROC")
 install.packages("caret")
-install.packages("RODBC")
+install.packages("DBI")
+install.packages("ROracle")
 
 library(ggplot2)
 library(dplyr)
@@ -33,17 +34,35 @@ library(kknn)
 library(ROCR)
 library(pROC)
 library(caret)
-library(RODBC)
+library(odbc)
+library(DBI)
+library(ROracle)
 
 #------------------------------------------------------------------------------------------------------------#
 #  Import des dataframes client, marketing, immatriculations, catalogue depuis une base de données ORACLE SQL      
 #------------------------------------------------------------------------------------------------------------#
 
+setwd("C:/Users/n.tamanini/Downloads")
+install.packages("ROracle_1.3-2.zip",repos = NULL)
 
 
 
 
-
+drv <- dbDriver("Oracle")
+host <- "192.168.1.46"
+port <- 1521
+svc <- "orcl"
+connect.string <- paste(
+  "(DESCRIPTION=",
+  "(ADDRESS=(PROTOCOL=tcp)(HOST=", host, ")(PORT=", port, "))",
+  "(CONNECT_DATA=(SERVICE_NAME=", svc, ")))", sep = "")
+## Use username/password authentication.
+con <- dbConnect(drv, username = "GROUPE1_PROJET", password = "GROUPE1_PROJET01",
+                 dbname = connect.string)
+## Run a SQL statement by creating first a resultSet object.
+marketing_query <- dbSendQuery(con, "select * from marketing_ext")
+## We now fetch records from the resultSet into a data.frame.
+marketing <- fetch(marketing_query) ## extract all rows
 
 
 
