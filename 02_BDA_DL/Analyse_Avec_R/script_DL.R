@@ -19,8 +19,7 @@ install.packages("kknn")
 install.packages("ROCR")
 install.packages("pROC")
 install.packages("caret")
-install.packages("DBI")
-install.packages("ROracle")
+install.packages("RODBC")
 
 library(ggplot2)
 library(dplyr)
@@ -34,36 +33,41 @@ library(kknn)
 library(ROCR)
 library(pROC)
 library(caret)
-library(odbc)
-library(DBI)
-library(ROracle)
+library(RODBC)
 
 #------------------------------------------------------------------------------------------------------------#
 #  Import des dataframes client, marketing, immatriculations, catalogue depuis une base de données ORACLE SQL      
 #------------------------------------------------------------------------------------------------------------#
 
-setwd("C:/Users/n.tamanini/Downloads")
-install.packages("ROracle_1.3-2.zip",repos = NULL)
 
 
+connexion <- odbcConnect("ORCLBIGDATALITEVM_DNS", uid="GROUPE1_PROJET", pwd="GROUPE1_PROJET01", believeNRows=FALSE)
+
+marketing <- sqlQuery(connexion, 'SELECT * FROM marketing_ext ORDER BY CLIENTMARKETINGID')
+immatriculations <- sqlQuery(connexion, 'SELECT * FROM immatriculation_ext')
+client <- sqlQuery(connexion, 'SELECT * FROM client')
 
 
-drv <- dbDriver("Oracle")
-host <- "192.168.1.46"
-port <- 1521
-svc <- "orcl"
-connect.string <- paste(
-  "(DESCRIPTION=",
-  "(ADDRESS=(PROTOCOL=tcp)(HOST=", host, ")(PORT=", port, "))",
-  "(CONNECT_DATA=(SERVICE_NAME=", svc, ")))", sep = "")
-## Use username/password authentication.
-con <- dbConnect(drv, username = "GROUPE1_PROJET", password = "GROUPE1_PROJET01",
-                 dbname = connect.string)
-## Run a SQL statement by creating first a resultSet object.
-marketing_query <- dbSendQuery(con, "select * from marketing_ext")
-## We now fetch records from the resultSet into a data.frame.
-marketing <- fetch(marketing_query) ## extract all rows
+#rm(catalogue)
+#catalogue <- sqlQuery(connexion, "SELECT * FROM catalogue_ext")
 
+catalogue <- read.csv(
+  "Catalogue.csv", 
+  header = TRUE, 
+  sep = ",", 
+  dec = "."
+)
+
+
+names(catalogue)[names(catalogue) == "marque"] <- "MARQUE"
+names(catalogue)[names(catalogue) == "nom"] <- "NOM"
+names(catalogue)[names(catalogue) == "puissance"] <- "PUISSANCE"
+names(catalogue)[names(catalogue) == "longueur"] <- "LONGUEUR"
+names(catalogue)[names(catalogue) == "nbPlaces"] <- "NBPLACES"
+names(catalogue)[names(catalogue) == "nbPortes"] <- "NBPORTES"
+names(catalogue)[names(catalogue) == "couleur"] <- "COULEUR"
+names(catalogue)[names(catalogue) == "occasion"] <- "OCCASION"
+names(catalogue)[names(catalogue) == "prix"] <- "PRIX"
 
 
 
@@ -71,6 +75,59 @@ marketing <- fetch(marketing_query) ## extract all rows
 #--------------------------------------#
 #  1. Analyse exploratoire des données      
 #--------------------------------------#
+
+
+
+#--------------------------------------#
+#               CLIENTS
+#--------------------------------------#
+
+
+#visualisation de donn�es
+summary(client)
+View(client)
+qplot(NBENFANTSACHARGE, data=client)
+
+#    TRI AGE 
+# Accepter que les valeurs comprises entre 18 et 84.
+client <- client%>% filter(client$AGE %in% (18:84))
+client$AGE <- as.numeric(client$AGE)
+
+# TRI TAUX
+# Accepter les valeurs comprises entre 544 et 74 185.
+client <- client%>% filter(client$TAUX %in% (544:74185))
+client$TAUX <- as.numeric(client$TAUX)
+
+# TRI NBENFANTSACHARGE
+# Accepte que les valeurs comprises entre 0 et 4
+client <- client%>% filter(client$NBENFANTSACHARGE %in% (0:4))
+client$NBENFANTSACHARGE <- as.numeric(client$NBENFANTSACHARGE)
+qplot(NBENFANTSACHARGE, data=client)
+
+#    TRI SEXE
+
+# Suppression des autres valeurs de sexe (autres que F et M)
+client <- subset(client, client$SEXE == "F" | client$SEXE == "M" )
+
+#   TRI SITUATION FAMILIALE
+
+# Suppression des autres valeurs non list� dans la cat�gorie
+client <- subset(client, client$SITUATIONFAMILIALE == "Celibataire" | client$SITUATIONFAMILIALE == "En Couple")
+
+# TRI X2EME.VOITURE
+#Accepte que les valeurs �gale � "tru" ou "false"
+client <- subset(client, client$DEUXIEMEVOITURE  == "true" | client$DEUXIEMEVOITURE  == "false")
+
+# TRI IMMATRICULATION
+# Garder que les plaques d'immatriculations de 10 charact�res
+client <- client[str_count(client$IMMATRICULATION) == 10,]
+
+# Test pour identifier la pr�sence de doublons
+sum(duplicated(client$IMMATRICULATION))
+
+# suppression des lignes dupliqu�es � l'aide de la librairie dplyr
+client <- distinct(client, IMMATRICULATION, .keep_all = TRUE)
+
 
 
 #--------------------------------------#
@@ -91,35 +148,35 @@ sum(duplicated(catalogue))
 
 # Marque : Affichage des effectifs de la variable marque : 
 
-table(catalogue$marque)
+table(catalogue$MARQUE)
 
 # Pas de marque inconnue
 
 
 # Nom du véhicule : Affichage des effectifs de la variable nom : 
 
-table(catalogue$nom)
+table(catalogue$NOM)
 
 # Pas de nom inconnu
 
 
 # Puissance : affichage des statistiques élémentaires de la variable puissance
 
-summary(catalogue$puissance)
+summary(catalogue$PUISSANCE)
 
 # Les puissances sont bien dans l'intervalle [55,507]
 
 
 # Longueur : Affichage des effectifs de la variable longueur : 
 
-table(catalogue$longueur)
+table(catalogue$LONGUEUR)
 
 # Pas de catégorie de longueur inconnue
 
 
 # Nombre de places : histogramme des effectifs de la variable nbPlaces
 
-qplot(nbPlaces, data=catalogue, bins=3)
+qplot(NBPLACES, data=catalogue, bins=3)
 
 # Bien dans l'intervalle [5,7]
 
@@ -127,7 +184,7 @@ qplot(nbPlaces, data=catalogue, bins=3)
 
 # Nombre de portes : histogramme des effectifs de la variable nbPortes
 
-qplot(nbPortes, data=catalogue, bins=3)
+qplot(NBPORTES, data=catalogue, bins=3)
 
 # Bien dans l'intervalle [3,5]
 
@@ -135,7 +192,7 @@ qplot(nbPortes, data=catalogue, bins=3)
 
 # Couleur :  Affichage des effectifs de la variable couleur
 
-table(catalogue$couleur)
+table(catalogue$COULEUR)
 
 # Pas de couleur inconnue
 
@@ -143,7 +200,7 @@ table(catalogue$couleur)
 
 # Occasion :  Affichage des effectifs de la variable occasion
 
-table(catalogue$occasion)
+table(catalogue$OCCASION)
 
 # On a bien que des booléens
 
@@ -151,7 +208,7 @@ table(catalogue$occasion)
 
 # Prix : affichage des statistiques élémentaires de la variable prix
 
-summary(catalogue$prix)
+summary(catalogue$PRIX)
 
 # Prix bien dans l'intervalle [7500,101300]
 
@@ -170,6 +227,9 @@ sum(duplicated(immatriculations))
 immatriculations <- distinct(immatriculations)
 
 
+# Remplacer les valeurs mal saisies 
+immatriculations$LONGUEUR <- ifelse(immatriculations$LONGUEUR=="tr¿longue", "très longue",immatriculations$LONGUEUR)
+
 
 
 # Vérification des contraintes de domaine 
@@ -179,11 +239,11 @@ immatriculations <- distinct(immatriculations)
 
 # Test pour identifier la présence de doublons au sein des numéros d'immatriculations
 
-sum(duplicated(immatriculations$immatriculation))
+sum(duplicated(immatriculations$IMMATRICULATION))
 
 # suppression des lignes dupliquées à l'aide de la librairie dplyr
 
-immatriculations <- distinct(immatriculations, immatriculation, .keep_all = TRUE)
+immatriculations <- distinct(immatriculations, IMMATRICULATION, .keep_all = TRUE)
 
 
 # Format du numéro d'immatriculation
@@ -191,19 +251,19 @@ immatriculations <- distinct(immatriculations, immatriculation, .keep_all = TRUE
 # On souhaite le format Â« 9999 AA 99 Â» qui comprend 10 caractères
 # On supprime donc les lignes dont le numéro d'immatriculation est inférieur à 10 caractères
 
-immatriculations <- immatriculations[str_count(immatriculations$immatriculation) == 10,]
+immatriculations <- immatriculations[str_count(immatriculations$IMMATRICULATION) == 10,]
 
 
 # Marque : Affichage des effectifs de la variable marque : 
 
-table(immatriculations$marque)
+table(immatriculations$MARQUE)
 
 # Pas de marque inconnue
 
 
 # Nom du véhicule : Affichage des effectifs de la variable nom : 
 
-table(immatriculations$nom)
+table(immatriculations$NOM)
 
 # Pas de nom inconnu
 
@@ -211,21 +271,21 @@ table(immatriculations$nom)
 
 # Puissance : affichage des statistiques élémentaires de la variable puissance
 
-summary(immatriculations$puissance)
+summary(immatriculations$PUISSANCE)
 
 # Les puissances sont bien dans l'intervalle [55,507]
 
 
 # Longueur : Affichage des effectifs de la variable longueur : 
 
-table(immatriculations$longueur)
+table(immatriculations$LONGUEUR)
 
 # Pas de catégorie de longueur inconnue
 
 
 # Nombre de places : histogramme des effectifs de la variable nbPlaces
 
-table(immatriculations$nbPlaces)
+table(immatriculations$NBPLACES)
 
 # Bien dans l'intervalle [5,7]
 
@@ -233,7 +293,7 @@ table(immatriculations$nbPlaces)
 
 # Nombre de portes : histogramme des effectifs de la variable nbPortes
 
-qplot(nbPortes, data=immatriculations, bins=3)
+qplot(NBPORTES, data=immatriculations, bins=3)
 
 # Bien dans l'intervalle [3,5]
 
@@ -241,7 +301,7 @@ qplot(nbPortes, data=immatriculations, bins=3)
 
 # Couleur :  Affichage des effectifs de la variable couleur
 
-table(immatriculations$couleur)
+table(immatriculations$COULEUR)
 
 # Pas de couleur inconnue
 
@@ -249,7 +309,7 @@ table(immatriculations$couleur)
 
 # Occasion :  Affichage des effectifs de la variable occasion
 
-table(immatriculations$occasion)
+table(immatriculations$OCCASION)
 
 # On a bien que des booléens
 
@@ -257,9 +317,11 @@ table(immatriculations$occasion)
 
 # Prix : affichage des statistiques élémentaires de la variable prix
 
-summary(immatriculations$prix)
+summary(immatriculations$PRIX)
 
 # Prix bien dans l'intervalle [7500,101300]
+
+
 
 
 #--------------------------------------#
@@ -270,16 +332,25 @@ summary(immatriculations$prix)
 #visualisation de données
 summary(client)
 View(client)
-qplot(nbEnfantsAcharge, data=client)
+qplot(NBENFANTSACHARGE, data=client)
 
 # Les données CLIENTS ont déjà été nettoyées dans ORACLE SQL
 
 
 #--------------------------------------#
 #             MARKETING
-#--------------------------------------#
+#-------------------------------------
 
-# FAUT RETIRER LA COLONNE CLIENTMARKETINGID
+# On retire la COLONNE CLIENTMARKETINGID
+
+marketing <- marketing[,-1] # On supprime la 1ere colonne
+
+marketing <- subset(marketing, marketing$SEXE == "F" | marketing$SEXE == "M" )
+
+# Remplacer les valeurs mal saisies 
+marketing$SITUATIONFAMILIALE <- ifelse(marketing$SITUATIONFAMILIALE=="C¿libataire", "Celibataire", marketing$SITUATIONFAMILIALE)
+
+
 
 
 #-----------------------------------------------#
@@ -289,15 +360,15 @@ qplot(nbEnfantsAcharge, data=client)
 
 # Création de la colonne catégorie dans le data frame "catalogue"
 
-catalogue$categorie <- ifelse(catalogue$longueur == 'courte' | catalogue$longueur == 'moyenne' , 'citadine', 'routière')
+catalogue$categorie <- ifelse(catalogue$LONGUEUR == 'courte' | catalogue$LONGUEUR == 'moyenne' , 'citadine', 'routière')
 
-catalogue$categorie[catalogue$puissance >= 350] <- 'sportive'
+catalogue$categorie[catalogue$PUISSANCE >= 350] <- 'sportive'
 
-catalogue$categorie[catalogue$prix > 70000 & catalogue$puissance < 350] <- 'luxe'
+catalogue$categorie[catalogue$PRIX > 70000 & catalogue$PUISSANCE < 350] <- 'luxe'
 
-catalogue$categorie[catalogue$nbPlaces > 5] <- 'familiale'
+catalogue$categorie[catalogue$NBPLACES > 5] <- 'familiale'
 
-catalogue$categorie[catalogue$prix < 10000] <- 'low-cost'
+catalogue$categorie[catalogue$PRIX < 10000] <- 'low-cost'
 
 
 
@@ -310,15 +381,15 @@ catalogue$categorie[catalogue$prix < 10000] <- 'low-cost'
 
 # Création de la colonne catégorie dans le data frame "immatriculations"
 
-immatriculations$categorie <- ifelse(immatriculations$longueur == 'courte' | immatriculations$longueur == 'moyenne' , 'citadine', 'routière')
+immatriculations$categorie <- ifelse(immatriculations$LONGUEUR == 'courte' | immatriculations$LONGUEUR == 'moyenne' , 'citadine', 'routière')
 
-immatriculations$categorie[immatriculations$puissance >= 350] <- 'sportive'
+immatriculations$categorie[immatriculations$PUISSANCE >= 350] <- 'sportive'
 
-immatriculations$categorie[immatriculations$prix > 70000 & immatriculations$puissance < 350] <- 'luxe'
+immatriculations$categorie[immatriculations$PRIX > 70000 & immatriculations$PUISSANCE < 350] <- 'luxe'
 
-immatriculations$categorie[immatriculations$nbPlaces > 5] <- 'familiale'
+immatriculations$categorie[immatriculations$NBPLACES > 5] <- 'familiale'
 
-immatriculations$categorie[immatriculations$prix < 10000] <- 'low-cost'
+immatriculations$categorie[immatriculations$PRIX < 10000] <- 'low-cost'
 
 
 #------------------------------------------------------------------------------------------------#
@@ -342,33 +413,33 @@ ventes <- inner_join(client, immatriculations, by= client$immatriculations)
 # On cherche à déterminer les variables sur les clients ayant une influence sur la catégorie de véhicule qui leur a été vendue.
 
 # Visualisation age vs categorie
-qplot(age, data=ventes, color=categorie)
-qplot(age,categorie, data=ventes) + geom_jitter(height = 0.2, width = 0.2)
+qplot(AGE, data=ventes, color=categorie)
+qplot(AGE,categorie, data=ventes) + geom_jitter(height = 0.2, width = 0.2)
 #  Toutes les voitures sportives ont été vendues à des personnes de 18 à 60 ans.
 # Toutes les voitures de luxe ont été vendues à des personnes de plus de 60 ans.
 # Les routières et les citadines se vendent de manière égale à tout age
 # CCL : age est une variable importante.
 
 # Visualisation sexe vs categorie
-qplot(sexe, data=ventes, color=categorie)
-qplot(age, sexe, data=ventes, color=categorie) + geom_jitter(height = 0.3, width = 0.3)
+qplot(SEXE, data=ventes, color=categorie)
+qplot(AGE, SEXE, data=ventes, color=categorie) + geom_jitter(height = 0.3, width = 0.3)
 # La proportion de catégories vendues semble être identique pour les deux sexes
 # CCL : sexe est une variable peu importante.
 
 # Visualisation taux vs categorie
-qplot(taux, data = ventes, color=categorie)
+qplot(TAUX, data = ventes, color=categorie)
 # La proportion de catégories vendues semble être identique pour toutes les valeurs de taux.
 # On remarque qu'un taux faible booste les ventes cependant.
 # CCL : taux est une variable peu importante.
 
 # Visualisation situationFamiliale vs categorie
-qplot(situationFamiliale, data = ventes, color=categorie)
+qplot(SITUATIONFAMILIALE, data = ventes, color=categorie)
 # On observe que la proportion de catégories vendues diffère selon la situation familiale des clients.
 # Plus de citadines sont vendues aux célibataires tandis que les personnes en couple préfèrent les routières ou les sportives.
 # CCL : situationFamiliale est une variable importante.
 
 # Visualisation nbEnfantsAcharge vs categorie
-qplot(nbEnfantsAcharge, data = ventes, color=categorie)
+qplot(NBENFANTSACHARGE, data = ventes, color=categorie)
 # On observe que la proportion de catégories vendues diffère selon le nombre d'enfants à charge des clients.
 # Plus de citadines sont vendues aux clients ayant 0 enfant à charge, 
 # plus routières sont vendues à ceux ayant entre 1 et 2 enfants à charge,
@@ -376,7 +447,7 @@ qplot(nbEnfantsAcharge, data = ventes, color=categorie)
 # CCL : nbEnfantsAcharge est une variable importante.
 
 # Visualisation X2eme.voiture vs categorie
-qplot(X2eme.voiture , data = ventes, color=categorie)
+qplot(DEUXIEMEVOITURE , data = ventes, color=categorie)
 # On observe que la proportion de catégories vendues diffère selon si la voiture est une deuxième voiture.
 # Quand X2eme.voiture est à false, les clients peuvent s'orienter sur des routières alors que quand X2eme.voiture
 # est à true, la proportion de routières vendues est quasi nulle.
@@ -395,20 +466,20 @@ qplot(X2eme.voiture , data = ventes, color=categorie)
 
 
 # On retire la colonne immatriculation de notre table car elle ne nous servira pas pour l'apprentissage
-ventes <- subset(ventes, select = -immatriculation)
+ventes <- subset(ventes, select = -IMMATRICULATION)
 
 # On retire ensuite les colonnes que nous n'avons pas retenu lors de notre analyse précédente.
-ventes <- subset(ventes, select = -sexe)
-ventes <- subset(ventes, select = -taux)
-ventes <- subset(ventes, select = -marque)
-ventes <- subset(ventes, select = -nom)
-ventes <- subset(ventes, select = -puissance)
-ventes <- subset(ventes, select = -longueur)
-ventes <- subset(ventes, select = -nbPlaces)
-ventes <- subset(ventes, select = -nbPortes)
-ventes <- subset(ventes, select = -couleur)
-ventes <- subset(ventes, select = -occasion)
-ventes <- subset(ventes, select = -prix)
+ventes <- subset(ventes, select = -SEXE)
+ventes <- subset(ventes, select = -TAUX)
+ventes <- subset(ventes, select = -MARQUE)
+ventes <- subset(ventes, select = -NOM)
+ventes <- subset(ventes, select = -PUISSANCE)
+ventes <- subset(ventes, select = -LONGUEUR)
+ventes <- subset(ventes, select = -NBPLACES)
+ventes <- subset(ventes, select = -NBPORTES)
+ventes <- subset(ventes, select = -COULEUR)
+ventes <- subset(ventes, select = -OCCASION)
+ventes <- subset(ventes, select = -PRIX)
 
 
 # On construit l'ensemble d'apprentissage ventes_EA et l'ensemble de test ventes_ET
@@ -423,13 +494,13 @@ ventes_ET <- ventes[26319:39476,]
 # On passe les attributs de type char en facteur (necessaire pour implémenter le classifieur C50)
 
 ventes_EA$categorie <- as.factor(ventes_EA$categorie)
-ventes_EA$X2eme.voiture <- as.factor(ventes_EA$X2eme.voiture)
-ventes_EA$situationFamiliale <- as.factor(ventes_EA$situationFamiliale)
+ventes_EA$DEUXIEMEVOITURE <- as.factor(ventes_EA$DEUXIEMEVOITURE)
+ventes_EA$SITUATIONFAMILIALE <- as.factor(ventes_EA$SITUATIONFAMILIALE)
 #ventes_EA$sexe <- as.factor(ventes_EA$sexe)
 
 ventes_ET$categorie <- as.factor(ventes_ET$categorie)
-ventes_ET$X2eme.voiture <- as.factor(ventes_ET$X2eme.voiture)
-ventes_ET$situationFamiliale <- as.factor(ventes_ET$situationFamiliale)
+ventes_ET$DEUXIEMEVOITURE <- as.factor(ventes_ET$DEUXIEMEVOITURE)
+ventes_ET$SITUATIONFAMILIALE <- as.factor(ventes_ET$SITUATIONFAMILIALE)
 #ventes_ET$sexe <- as.factor(ventes_ET$sexe)
 
 

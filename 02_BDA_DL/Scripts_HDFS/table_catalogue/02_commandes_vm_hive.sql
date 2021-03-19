@@ -22,7 +22,8 @@ drop table CATALOGUE;
 
 CREATE EXTERNAL TABLE CATALOGUE( MARQUE STRING,  NOM STRING, PUISSANCE  int, LONGUEUR STRING, NBPORTES int, NBPLACES int, COULEUR STRING, OCCASION STRING, PRIX INT)
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
-STORED AS TEXTFILE LOCATION 'hdfs:/projet_big_data_catalogue';
+STORED AS TEXTFILE LOCATION 'hdfs:/projet_big_data_catalogue'
+tblproperties ("skip.header.line.count"="1");
 
 
 -- Vérification de la table externe CATALOGUE dans HIVE
@@ -32,7 +33,7 @@ jdbc:hive2://localhost:10000> SELECT COUNT(*) FROM CATALOGUE;
 +------+--+
 | _c0  |
 +------+--+
-| 271  |
+| 270  |
 +------+--+
 
 1 row selected (49.077 seconds)
