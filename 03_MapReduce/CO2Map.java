@@ -34,7 +34,7 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
 
 		// Gestion colonne marque
 		String marque;
-		String[] splitted_space = splitted_node[1].split(""); 
+		String[] splitted_space = splitted_node[1].split(" "); 
 		marque = splitted_space[0]; //creation de la colonne marque
 
 		char c = marque.charAt(0);
@@ -51,18 +51,20 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
 		}
 
 		// Gestion colonne Malus/Bonus
-		String malus_bonus = splitted_node[2];
-		String[] splitted_malus_bonus = malus_bonus.split(""); 
+		String malus_bonus;
 			
-		if (splitted_malus_bonus[0]=="-"){
+		if (splitted_node[2]=="-"){
 			malus_bonus="0";
 		} else {
-			malus_bonus = splitted_malus_bonus[0] + splitted_malus_bonus[1];
+			String[] splitted_malus_bonus = splitted_node[2].split(" "); 
+			//malus_bonus = splitted_malus_bonus[0] + splitted_malus_bonus[1];
+			malus_bonus= splitted_malus_bonus[0].concat(splitted_malus_bonus[1]);
+			//malus_bonus=splitted_malus_bonus[0];
 		}
 
 		// Gestion colonne cout energie
 		String cout;
-		String[] splitted_cout_energie = splitted_node[4].split(""); 
+		String[] splitted_cout_energie = splitted_node[4].split(" "); 
 		cout = splitted_cout_energie[0];
 
 		// Gestion colonne Rejet CO2

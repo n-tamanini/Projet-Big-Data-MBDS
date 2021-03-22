@@ -32,6 +32,8 @@ hadoop fs -ls /CO2
 
 # Exécutez le programme
 
+hadoop fs -rmdir /CO2/results
+
 hadoop jar CO2.jar org.co2.CO2 /CO2/CO2.csv /CO2/results
 
 # Consulter les résultats
