@@ -37,12 +37,12 @@ public class CO2 {
 		
 		protected void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 			String node = value.toString(); 
-			String[] splitted_node = node.split(","); // ex. "6,BMW i3 120 Ah,-6 000€ 1,0,204 €"
+			String[] splitted_node = node.split(","); 
 
 
 			// Gestion colonne marque
 			String marque;
-			String[] splitted_space = splitted_node[1].split(""); // ex. "6,BMW i3 120 Ah,-6 000€ 1,0,204 €"
+			String[] splitted_space = splitted_node[1].split(""); 
 			marque = splitted_space[0]; //creation de la colonne marque
 
 			char c = marque.charAt(0);
@@ -57,11 +57,12 @@ public class CO2 {
 					a++;
 				}
 				marque = String.valueOf(marqueChar);
+				
 			}
 
 
 			// Gestion colonne Malus/Bonus
-			String[] splitted_malus_bonus = splitted_node[3].split(""); // ex. "6,BMW i3 120 Ah,-6 000€ 1,0,204 €"
+			String[] splitted_malus_bonus = splitted_node[3].split(""); 
 			String malus_bonus = splitted_node[3];
 
 			malus_bonus = splitted_malus_bonus[0] + splitted_malus_bonus[1];
@@ -71,12 +72,18 @@ public class CO2 {
 			
 			// Gestion colonne cout energie
 			String cout;
-			String[] splitted_cout_energie = splitted_node[5].split(""); // ex. "6,BMW i3 120 Ah,-6 000€ 1,0,204 €"
+			String[] splitted_cout_energie = splitted_node[5].split(""); 
 			cout = splitted_cout_energie[0];
 
+			// Gestion colonne Rejet CO2
+			String rejet = splitted_node[4];
+
+
+			// couple clé/valeurs
+			 String new_value = malus_bonus + "|" +  rejet + "|" + cout;
+            context.write(marque, new Text(new_value));
+
 		}
-	
-	
 	
 	
 	// Notre classe REDUCE.
@@ -105,18 +112,43 @@ public class CO2 {
 		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 			// Pour parcourir toutes les valeurs associées a la cle fournie.
 			// key = la cle (ex. "aekl")
-			// values = iterateur sur les valeurs associees (ex. "lake", "leak")
+			String malus_bonus = "";
+			String rejet = "";
+			String cout = "";
+			int sommeBonus_Malus = 0;
+			int sommeRejet = 0;
+			int sommeCout = 0;
+			int count=0;
+			int moyenneMalus_Bonus;
+			int moyenneRejet;
+			int moyenneCout;
+			
 			Iterator<Text> i = values.iterator();
 			while(i.hasNext()) {
-				String[] val = i.next().toString().split(",");
-				profit += Float.parseFloat(val[0]);
-				if (val.length == 2) {
-					unitsSold += Integer.valueOf(val[1]);
-				}
-			}
-			
-		
-	
+				String node = i.next().toString(); 
+				String[] splitted_node = node.split("|"); 
+				
+				malus_bonus = splitted_node[0];
+				rejet = splitted_node[1];
+				cout = splitted_node[2];
+
+				sommeBonus_Malus = Integer.parseInt(malus_bonus);
+				sommeRejet = Integer.parseInt(rejet);
+				sommeCout = Integer.parseInt(cout);
+
+				sommeBonus_Malus+=malus_bonus;
+				sommeRejet+=rejet;
+				sommeCout+=cout;
+
+				count++;
+
+
+		}
+		moyenneMalus_Bonus = sommeBonus_Malus/count;
+		moyenneRejet = sommeRejet/count;
+		moyenneCout = sommeCout/count;
+
+		context.write(key, new Text(moyenneMalus_Bonus + "|" + moyenneRejet + "|" + moyenneCout));
 }
 
 
@@ -129,12 +161,12 @@ public class CO2 {
 		String[] ourArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
 		// Obtient un nouvel objet Job: une tache Hadoop. On fourni la configuration Hadoop ainsi qu'une description
 		// textuelle de la tache.
-		Job job = Job.getInstance(conf, "Compteur de mots v1.0");
+		Job job = Job.getInstance(conf, "CO2 MapReduce");
 
 		// Defini les classes driver, map et reduce.
-		job.setJarByClass(Projet.class);
-		job.setMapperClass(ProjetMap.class);
-		job.setReducerClass(ProjetReduce.class);
+		job.setJarByClass(CO2.class);
+		job.setMapperClass(CO2Map.class);
+		job.setReducerClass(CO2Reduce.class);
 
 		// Defini types cle/valeurs de notre programme Hadoop.
 		job.setOutputKeyClass(Text.class);
