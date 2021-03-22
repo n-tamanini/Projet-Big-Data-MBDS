@@ -1,0 +1,31 @@
+------Compiler le code
+
+javac CO2.java CO2Map.java CO2Reduce.java
+
+
+ ------Construisez la hierarchie du .jar et y déplacez le code compilé
+
+ mkdir -p org/mbds/hadoop/CO2
+ mv WCount*.class org/mbds/hadoop/CO2
+
+ ------Générer le jar
+
+ jar -cvf projet_CO2.jar -C . org
+
+------Dépalcer le fichier sur HDFS
+
+hadoop fs -put CO2.csv /
+
+------Vérifiez sa présence sur HDFS:
+
+hadoop fs -ls /
+
+------Exécutez le programme
+
+hadoop jar projet_CO2.jar org.mbds.hadoop.tp.CO2 /CO2.csv /results
+
+
+------Consulter les résultats
+
+hadoop fs -ls /results
+hadoop fs -cat /results/*
