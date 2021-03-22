@@ -1,28 +1,42 @@
+-- Le fichier CO2.csv se trouve dans le répertoire suivant sur la machine virtuelle : /home/oracle/data_group_1/CO2.csv
+export MYDATAHOME=/home/oracle/data_group_1
+export MYPROJECTHOME=/home/oracle/Projet-Big-Data-MBDS
+ 
 ------Compiler le code
 
-javac CO2.java CO2Map.java CO2Reduce.java
+cd $MYPROJECTHOME/03_MapReduce
 
+javac CO2.java
 
  ------Construisez la hierarchie du .jar et y déplacez le code compilé
 
- mkdir -p org/mbds/hadoop/CO2
- mv WCount*.class org/mbds/hadoop/CO2
+ mkdir -p $MYPROJECTHOME/03_MapReduce/CO2
+ mv CO2*.class $MYPROJECTHOME/03_MapReduce/CO2
+
+ cd CO2
 
  ------Générer le jar
 
- jar -cvf projet_CO2.jar -C . org
+ jar -cvf CO2.jar -C . /
 
 ------Dépalcer le fichier sur HDFS
 
-hadoop fs -put CO2.csv /
+hadoop fs -mkdir /CO2
+
+hadoop fs -put $MYDATAHOME/CO2.csv /CO2
 
 ------Vérifiez sa présence sur HDFS:
 
-hadoop fs -ls /
+hadoop fs -ls /CO2
+
+--Réponse : 
+--Found 1 items
+---rw-r--r--   1 oracle supergroup      38916 2021-03-22 06:02 /CO2/CO2.csv
+
 
 ------Exécutez le programme
 
-hadoop jar projet_CO2.jar org.mbds.hadoop.tp.CO2 /CO2.csv /results
+hadoop jar CO2.jar CO2 /CO2/CO2.csv /CO2/results
 
 
 ------Consulter les résultats

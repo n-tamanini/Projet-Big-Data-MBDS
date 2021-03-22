@@ -1,4 +1,4 @@
-package ...;
+package mbds;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -52,7 +52,7 @@ public class CO2 {
 
 			if (c=='"'){
 				int a=0;
-				for(i=1;i<length.marqueCharArray;i++){
+				for(int i=1;i<marqueCharArray.length;i++){
 					marqueChar[a]=marqueCharArray[i];
 					a++;
 				}
@@ -81,9 +81,10 @@ public class CO2 {
 
 			// couple clé/valeurs
 			 String new_value = malus_bonus + "|" +  rejet + "|" + cout;
-            context.write(marque, new Text(new_value));
+            context.write(new Text(marque), new Text(new_value));
 
 		}
+	}
 	
 	
 	// Notre classe REDUCE.
@@ -136,21 +137,21 @@ public class CO2 {
 				sommeRejet = Integer.parseInt(rejet);
 				sommeCout = Integer.parseInt(cout);
 
-				sommeBonus_Malus+=malus_bonus;
-				sommeRejet+=rejet;
-				sommeCout+=cout;
+				sommeBonus_Malus+=sommeBonus_Malus;
+				sommeRejet+=sommeRejet;
+				sommeCout+=sommeCout;
 
 				count++;
+			}
 
+			moyenneMalus_Bonus = sommeBonus_Malus/count;
+			moyenneRejet = sommeRejet/count;
+			moyenneCout = sommeCout/count;
 
+			context.write(key, new Text(moyenneMalus_Bonus + "|" + moyenneRejet + "|" + moyenneCout));
 		}
-		moyenneMalus_Bonus = sommeBonus_Malus/count;
-		moyenneRejet = sommeRejet/count;
-		moyenneCout = sommeCout/count;
-
-		context.write(key, new Text(moyenneMalus_Bonus + "|" + moyenneRejet + "|" + moyenneCout));
-}
-
+	}
+	
 
 // Le main du programme.
 	public static void main(String[] args) throws Exception {
@@ -182,29 +183,7 @@ public class CO2 {
 		if(job.waitForCompletion(true))
 			System.exit(0);
 		System.exit(-1);
-		}
-	
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
+}
