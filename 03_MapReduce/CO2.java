@@ -1,4 +1,4 @@
-package mbds;
+package org.co2;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -49,6 +49,4 @@ public class CO2 {
 			System.exit(0);
 		System.exit(-1);
 	}
-
-	
 }
