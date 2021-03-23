@@ -70,6 +70,30 @@ names(catalogue)[names(catalogue) == "occasion"] <- "OCCASION"
 names(catalogue)[names(catalogue) == "prix"] <- "PRIX"
 
 
+catalogue$MARQUE = toupper(catalogue$MARQUE)
+immatriculations$MARQUE = toupper(immatriculations$MARQUE)
+
+#--------------------------------------#
+#                 CO2     
+#--------------------------------------#
+
+co2 <- read.delim(
+  "CO2.txt", 
+  header = TRUE, 
+  sep = "|", 
+  dec = "."
+)
+ 
+
+#renameColonne
+colnames(co2) <- c("Marque","Bonus/Malus", "RejetCo2", "cout.energie")
+
+
+catalogue <- left_join(catalogue, co2, by = c("MARQUE" = "Marque"), copy = FALSE)
+
+View(catalogue)
+
+
 
 
 #--------------------------------------#

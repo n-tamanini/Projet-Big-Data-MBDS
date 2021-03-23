@@ -62,27 +62,12 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
 		}
 
 		// Gestion colonne Malus/Bonus
-        String malus_bonus;
+        String malus_bonus = splitted_node[2];
 
-		if (splitted_node[2].length() == 1){
+		if (malus_bonus.length() == 1){
 			malus_bonus="0"; 
 		} else {
-			malus_bonus = splitted_node[2];
-			char[] malus_bonus_char = malus_bonus.toCharArray();
-        	char[] malus_bonus_char_parsed = new char[malus_bonus_char.length];
-
-			for(int i=0;i<malus_bonus_char.length;i++){
-                if(malus_bonus_char[i] != euChar){
-            		malus_bonus_char_parsed[i] += malus_bonus_char[i];
-            	}
-            	else {
-               		break;                	
-				}
-            }
-			malus_bonus = String.valueOf(malus_bonus_char_parsed);
-
-			String[] malus_bonus_splitted = malus_bonus.split(" ");
-			malus_bonus = malus_bonus_splitted[0] + malus_bonus_splitted[1];
+			malus_bonus = malus_bonus.replaceAll(" ", "").replace("€1", "").replace("€", "");
 		}
 
 		// Gestion colonne cout energie
@@ -98,13 +83,31 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
 		// Gestion colonne Rejet CO2
 		String rejet = splitted_node[3];
 
+		int malus_bonus_int = Integer.parseInt(malus_bonus);
+		int rejet_int = Integer.parseInt(rejet);
+		int cout_int = Integer.parseInt(cout);
+	
 		// couple clé/valeurs
-		String new_value = malus_bonus + "|" +  rejet + "|" + cout;
+		String new_value = String.valueOf(malus_bonus_int) + "|" +  String.valueOf(rejet_int) + "|" + String.valueOf(cout_int);
 		
-		System.err.print(marque);
-		System.err.print("	");
-		System.err.println(new_value); 
-
         context.write(new Text(marque), new Text(new_value));
+
+		
+
+
+/*    EXEMPLE DE M. SIMONIAN
+
+
+
+		String[] cols = value.toString().split(",");
+        String bonusMalus = cols[2];
+        bonusMalus = bonusMalus.replaceAll("\\u00a0", "").replace("€1", "").replace("€", "");
+        if (bonusMalus.equals("-") || bonusMalus.equals("Bonus / Malus")) return;
+        int bonusMalusInt = Integer.parseInt(bonusMalus);
+        context.write(new Text(String.valueOf(bonusMalusInt)), value);
+
+
+		*/
 	}
+	
 }

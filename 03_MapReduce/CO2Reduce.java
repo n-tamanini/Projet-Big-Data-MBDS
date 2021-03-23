@@ -31,23 +31,27 @@ public class CO2Reduce extends Reducer<Text, Text, Text, Text> {
 	// Note: Le type du second argument Iterable correspond au deuxieme type generique.
 	// Note: L'objet Context nous permet d'ecrire les couples (cle,valeur).
 	public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-		String malus_bonus = "";
-		String rejet = "";
-		String cout = "";
+		
+		String malus_bonus;
+		String rejet;
+		String cout;
+		
 		int sommeBonus_Malus = 0;
 		int sommeRejet = 0;
 		int sommeCout = 0;
+
 		int count=0;
-		long moyenneMalus_Bonus;
-		long moyenneRejet;
-		long moyenneCout;
-			
+		int moyenneMalus_Bonus = 0;
+		int moyenneRejet = 0;
+		int moyenneCout = 0;
+
 		Iterator<Text> i = values.iterator();
 		while(i.hasNext()) {
 			String node = i.next().toString(); 
+			System.err.print(key);
+			System.err.print("	");
 			System.err.println(node);
 			String[] splitted_node = node.split("\\|"); 
-			try{
 				malus_bonus = splitted_node[0];
 				rejet = splitted_node[1];
 				cout = splitted_node[2];
@@ -56,21 +60,20 @@ public class CO2Reduce extends Reducer<Text, Text, Text, Text> {
 				sommeRejet = Integer.parseInt(rejet);
 				sommeCout = Integer.parseInt(cout);
 
-				sommeBonus_Malus+=sommeBonus_Malus;
-				sommeRejet+=sommeRejet;
-				sommeCout+=sommeCout;
+				sommeBonus_Malus += sommeBonus_Malus;
+				sommeRejet += sommeRejet;
+				sommeCout += sommeCout;
 
 				count++;
-			} catch (Exception e){
-				e.printStackTrace();
-			}
-
 		}
 
-		System.err.println(sommeBonus_Malus);
-		moyenneMalus_Bonus = sommeBonus_Malus/count;
-		moyenneRejet = sommeRejet/count;
-		moyenneCout = sommeCout/count;
+	
+			System.err.println("sommeBonus_Malus = " + sommeBonus_Malus);
+			System.err.println("count = " + count);
+			moyenneMalus_Bonus = sommeBonus_Malus/count;
+			moyenneRejet = sommeRejet/count;
+			moyenneCout = sommeCout/count;
+
 
 		context.write(key, new Text(moyenneMalus_Bonus + "|" + moyenneRejet + "|" + moyenneCout));
 	}
