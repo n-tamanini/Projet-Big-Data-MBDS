@@ -78,9 +78,9 @@ immatriculations$MARQUE = toupper(immatriculations$MARQUE)
 #--------------------------------------#
 
 co2 <- read.delim(
-  "CO2.txt", 
+  "co2_resultat.txt", 
   header = TRUE, 
-  sep = "|", 
+  sep = "\t", 
   dec = "."
 )
  
