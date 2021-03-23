@@ -48,33 +48,26 @@ public class CO2Reduce extends Reducer<Text, Text, Text, Text> {
 		Iterator<Text> i = values.iterator();
 		while(i.hasNext()) {
 			String node = i.next().toString(); 
+
 			System.err.print(key);
 			System.err.print("	");
 			System.err.println(node);
+
 			String[] splitted_node = node.split("\\|"); 
-				malus_bonus = splitted_node[0];
-				rejet = splitted_node[1];
-				cout = splitted_node[2];
+			malus_bonus = splitted_node[0];
+			rejet = splitted_node[1];
+			cout = splitted_node[2];
 
-				sommeBonus_Malus = Integer.parseInt(malus_bonus);
-				sommeRejet = Integer.parseInt(rejet);
-				sommeCout = Integer.parseInt(cout);
+			sommeBonus_Malus += Integer.parseInt(malus_bonus);
+			sommeRejet += Integer.parseInt(rejet);
+			sommeCout += Integer.parseInt(cout);
 
-				sommeBonus_Malus += sommeBonus_Malus;
-				sommeRejet += sommeRejet;
-				sommeCout += sommeCout;
-
-				count++;
+			count++;
 		}
+		moyenneMalus_Bonus = sommeBonus_Malus/count;
+		moyenneRejet = sommeRejet/count;
+		moyenneCout = sommeCout/count;
 
-	
-			System.err.println("sommeBonus_Malus = " + sommeBonus_Malus);
-			System.err.println("count = " + count);
-			moyenneMalus_Bonus = sommeBonus_Malus/count;
-			moyenneRejet = sommeRejet/count;
-			moyenneCout = sommeCout/count;
-
-
-		context.write(key, new Text(moyenneMalus_Bonus + "|" + moyenneRejet + "|" + moyenneCout));
+		context.write(key, new Text(moyenneMalus_Bonus + "\t" + moyenneRejet + "\t" + moyenneCout));
 	}
 }
