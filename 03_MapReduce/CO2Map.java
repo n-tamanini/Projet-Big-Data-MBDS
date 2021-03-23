@@ -79,18 +79,23 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
             }
 			malus_bonus = String.valueOf(malus_bonus_char_parsed);
 
-			String[] malus_bonus_splitted = malus_bonus.split(" ");
+
+			/*String[] malus_bonus_splitted = malus_bonus.split(" ");
+			
 			try{
 				malus_bonus = malus_bonus_splitted[0] + malus_bonus_splitted[1];
-				int ab = Integer.parseInt(malus_bonus);
-				System.err.println(ab);
+				//int ab = Integer.parseInt(malus_bonus);
+				//System.err.println(ab);
 			} catch(Exception e){
 				e.printStackTrace();
 			}
+			*/
 
 			
 		}
-/*
+
+
+		/*
 			String aaa = "-6 000";
 			String[] bbb = aaa.split(" ");
 			String zzz = bbb[0] + bbb[1];
@@ -127,9 +132,11 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
 
 		// couple clé/valeurs
 		String new_value = malus_bonus + "|" +  rejet + "|" + cout;
-		System.err.println(new_value);
-
-		//System.err.println(marque);
+		
+		System.err.print(marque);
+		System.err.print("	");
+		System.err.println(new_value); 
+		
 
         context.write(new Text(marque), new Text(new_value));
 	}
