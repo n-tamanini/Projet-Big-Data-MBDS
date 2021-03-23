@@ -37,6 +37,9 @@ public class CO2 {
 		// Defini types cle/valeurs de notre programme Hadoop.
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
+
+		// Définit le format de sortie des couples clef-valeur (on aura CLEF|VALEUR)
+		conf.set("mapreduce.output.textoutputformat.separator", "|");
 	
 		// Defini les fichiers d'entree du programme et le repertoire des resultats.
 		// On se sert du premier et du deuxieme argument restants pour permettre a l'utilisateur de les specifier

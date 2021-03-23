@@ -35,6 +35,8 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
 		}
 
 		String node = value.toString(); 
+		node = node.replaceAll("\\u00a0"," ");
+		
 		String[] splitted_node = node.split(","); 
 		String eu = "€";
         char euChar = eu.charAt(0);
@@ -79,35 +81,10 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
             }
 			malus_bonus = String.valueOf(malus_bonus_char_parsed);
 
-
-			/*String[] malus_bonus_splitted = malus_bonus.split(" ");
-			
-			try{
-				malus_bonus = malus_bonus_splitted[0] + malus_bonus_splitted[1];
-				//int ab = Integer.parseInt(malus_bonus);
-				//System.err.println(ab);
-			} catch(Exception e){
-				e.printStackTrace();
-			}
-			*/
-
-			
+			String[] malus_bonus_splitted = malus_bonus.split(" ");
+			malus_bonus = malus_bonus_splitted[0] + malus_bonus_splitted[1];
 		}
 
-
-		/*
-			String aaa = "-6 000";
-			String[] bbb = aaa.split(" ");
-			String zzz = bbb[0] + bbb[1];
-			int ab = Integer.parseInt(zzz);
-			System.err.println(ab);
-		*/
-
-			
-            //malus_bonus = splitted_malus_bonus[0] + splitted_malus_bonus[1];
-            
-            //malus_bonus=splitted_malus_bonus[0];
-        //}
 
 		// Gestion colonne cout energie
         String cout;
@@ -117,15 +94,15 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
         char[] cout_char_parsed = new char[cout_char.length];
  
         for(int i=0;i<cout_char.length;i++){
-                if(cout_char[i] != euChar ){
-                    cout_char_parsed[i] += cout_char[i];
-                }
-                else {
-                    break;
-                }
-            cout = String.valueOf(cout_char_parsed);
-			cout = cout.trim();
+            if(cout_char[i] != euChar ){
+                cout_char_parsed[i] += cout_char[i];
+            }
+            else {
+				break;
+            }
         }
+		cout = String.valueOf(cout_char_parsed);
+		cout = cout.trim();
 
 		// Gestion colonne Rejet CO2
 		String rejet = splitted_node[3];
