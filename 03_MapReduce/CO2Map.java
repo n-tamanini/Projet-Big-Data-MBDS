@@ -29,8 +29,17 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
 		// Note: L'objet Context nous permet d'ecrire les couples (cle, valeur).
 		
 	protected void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+
+		if (value.toString().contains("Marque")){
+			return;
+		}
+
 		String node = value.toString(); 
 		String[] splitted_node = node.split(","); 
+		String eu = "€";
+        char euChar = eu.charAt(0);
+		String esp = " ";
+        char espChar = esp.charAt(0);
 
 		// Gestion colonne marque
 		String marque;
@@ -51,41 +60,77 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
 		}
 
 		// Gestion colonne Malus/Bonus
-		String malus_bonus;
-			
-		if (splitted_node[2]=="-"){
-			malus_bonus="0";
+        String malus_bonus;
+
+		if (splitted_node[2].length() == 1){
+			malus_bonus="0"; 
 		} else {
-			//String[] splitted_malus_bonus = splitted_node[2].split("\\s+"); 
-
-			malus_bonus = splitted_node[2].replaceAll("\\s", "");
+			malus_bonus = splitted_node[2];
 			char[] malus_bonus_char = malus_bonus.toCharArray();
-			char[] malus_bonus_char_parsed = new char[10];
+        	char[] malus_bonus_char_parsed = new char[malus_bonus_char.length];
 
-			int i = 0;
-			String euro = "€";
-			char euroChar = euro.charAt(0);
-			while(malus_bonus_char[i] != euroChar){
-				malus_bonus_char_parsed[i] += malus_bonus_char[i];
-				i++;
-			}
+			for(int i=0;i<malus_bonus_char.length;i++){
+                if(malus_bonus_char[i] != euChar){
+            		malus_bonus_char_parsed[i] += malus_bonus_char[i];
+            	}
+            	else {
+               		break;                	
+				}
+            }
 			malus_bonus = String.valueOf(malus_bonus_char_parsed);
 
-			//malus_bonus = splitted_malus_bonus[0] + splitted_malus_bonus[1];
-			//malus_bonus= splitted_malus_bonus[0].concat(splitted_malus_bonus[1]);
-			//malus_bonus=splitted_malus_bonus[0];
+			String[] malus_bonus_splitted = malus_bonus.split(" ");
+			try{
+				malus_bonus = malus_bonus_splitted[0] + malus_bonus_splitted[1];
+				int ab = Integer.parseInt(malus_bonus);
+				System.err.println(ab);
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+
+			
 		}
+/*
+			String aaa = "-6 000";
+			String[] bbb = aaa.split(" ");
+			String zzz = bbb[0] + bbb[1];
+			int ab = Integer.parseInt(zzz);
+			System.err.println(ab);
+		*/
+
+			
+            //malus_bonus = splitted_malus_bonus[0] + splitted_malus_bonus[1];
+            
+            //malus_bonus=splitted_malus_bonus[0];
+        //}
 
 		// Gestion colonne cout energie
-		String cout;
-		String[] splitted_cout_energie = splitted_node[4].split("\\s+"); 
-		cout = splitted_cout_energie[0];
+        String cout;
+ 	    cout = splitted_node[4];
+        //cout = splitted_node[4].replaceAll("\\s", "");
+        char[] cout_char = cout.toCharArray();
+        char[] cout_char_parsed = new char[cout_char.length];
+ 
+        for(int i=0;i<cout_char.length;i++){
+                if(cout_char[i] != euChar ){
+                    cout_char_parsed[i] += cout_char[i];
+                }
+                else {
+                    break;
+                }
+            cout = String.valueOf(cout_char_parsed);
+			cout = cout.trim();
+        }
 
 		// Gestion colonne Rejet CO2
 		String rejet = splitted_node[3];
 
 		// couple clé/valeurs
 		String new_value = malus_bonus + "|" +  rejet + "|" + cout;
+		System.err.println(new_value);
+
+		//System.err.println(marque);
+
         context.write(new Text(marque), new Text(new_value));
 	}
 }

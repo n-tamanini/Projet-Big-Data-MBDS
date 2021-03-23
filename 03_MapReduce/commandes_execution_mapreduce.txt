@@ -20,6 +20,10 @@ javac CO2*
 # Dépalcer le fichier CO2.csv sur HDFS
 
 hadoop fs -mkdir /CO2
+
+# supprimer le fichier si besoin
+hadoop fs -rm /CO2/CO2.csv
+
 hadoop fs -put $MYDATAHOME/CO2.csv /CO2
 
 # Vérifiez sa présence sur HDFS:

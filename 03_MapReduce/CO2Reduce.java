@@ -45,7 +45,7 @@ public class CO2Reduce extends Reducer<Text, Text, Text, Text> {
 		Iterator<Text> i = values.iterator();
 		while(i.hasNext()) {
 			String node = i.next().toString(); 
-			String[] splitted_node = node.split("|"); 
+			String[] splitted_node = node.split("\\|"); 
 				
 			malus_bonus = splitted_node[0];
 			rejet = splitted_node[1];
