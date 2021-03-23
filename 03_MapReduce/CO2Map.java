@@ -85,24 +85,15 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
 			malus_bonus = malus_bonus_splitted[0] + malus_bonus_splitted[1];
 		}
 
-
 		// Gestion colonne cout energie
         String cout;
  	    cout = splitted_node[4];
-        //cout = splitted_node[4].replaceAll("\\s", "");
-        char[] cout_char = cout.toCharArray();
-        char[] cout_char_parsed = new char[cout_char.length];
- 
-        for(int i=0;i<cout_char.length;i++){
-            if(cout_char[i] != euChar ){
-                cout_char_parsed[i] += cout_char[i];
-            }
-            else {
-				break;
-            }
-        }
-		cout = String.valueOf(cout_char_parsed);
-		cout = cout.trim();
+		String[] cout_splitted = cout.split(" ");
+		if(cout_splitted.length == 2){  // ex : |967,€]
+			cout = cout_splitted[0];
+		} else if(cout_splitted.length == 3){ // ex : [1,005,€]
+			cout= cout_splitted[0] + cout_splitted[1];
+		}
 
 		// Gestion colonne Rejet CO2
 		String rejet = splitted_node[3];
@@ -113,7 +104,6 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
 		System.err.print(marque);
 		System.err.print("	");
 		System.err.println(new_value); 
-		
 
         context.write(new Text(marque), new Text(new_value));
 	}

@@ -38,30 +38,36 @@ public class CO2Reduce extends Reducer<Text, Text, Text, Text> {
 		int sommeRejet = 0;
 		int sommeCout = 0;
 		int count=0;
-		int moyenneMalus_Bonus;
-		int moyenneRejet;
-		int moyenneCout;
+		long moyenneMalus_Bonus;
+		long moyenneRejet;
+		long moyenneCout;
 			
 		Iterator<Text> i = values.iterator();
 		while(i.hasNext()) {
 			String node = i.next().toString(); 
+			System.err.println(node);
 			String[] splitted_node = node.split("\\|"); 
-				
-			malus_bonus = splitted_node[0];
-			rejet = splitted_node[1];
-			cout = splitted_node[2];
+			try{
+				malus_bonus = splitted_node[0];
+				rejet = splitted_node[1];
+				cout = splitted_node[2];
 
-			sommeBonus_Malus = Integer.parseInt(malus_bonus);
-			sommeRejet = Integer.parseInt(rejet);
-			sommeCout = Integer.parseInt(cout);
+				sommeBonus_Malus = Integer.parseInt(malus_bonus);
+				sommeRejet = Integer.parseInt(rejet);
+				sommeCout = Integer.parseInt(cout);
 
-			sommeBonus_Malus+=sommeBonus_Malus;
-			sommeRejet+=sommeRejet;
-			sommeCout+=sommeCout;
+				sommeBonus_Malus+=sommeBonus_Malus;
+				sommeRejet+=sommeRejet;
+				sommeCout+=sommeCout;
 
-			count++;
+				count++;
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+
 		}
 
+		System.err.println(sommeBonus_Malus);
 		moyenneMalus_Bonus = sommeBonus_Malus/count;
 		moyenneRejet = sommeRejet/count;
 		moyenneCout = sommeCout/count;
