@@ -717,7 +717,7 @@ print(auc.rf_pred_1)
 
 # Indice AUC : 0.9021
 
-# Moins bon que C50
+# Indice AUC moins bon que pour le classifieur C50
 
 
 #----------------#
@@ -741,7 +741,7 @@ print(auc.rf_pred_2)
 
 # Indice AUC : 0.9148
 
-# Moins bon que C50
+# Indice AUC moins bon que pour le classifieur C50
 
 
 # Conclusion : l'indice AUC obtenu avec le paramétrage 2 est légèrement meilleur que celui obtenu 
@@ -880,23 +880,9 @@ print(auc.nb_pred)
 
 # Résultats : 
 
-# Indice AUC : 0.9154
+# Indice AUC : 0.9143
 
-# Mesure de Rappel pour chaque classe (sensitivity) : 
-
-# citadine : 0.8707
-# luxe : 0.6778
-# routière : 0.7125
-# sportive : 0.6549
-
-# Mesure de Précision pour chaque classe (Pos pred value) : 
-
-# citadine : 0.8883
-# luxe : 0.6789
-# routière : 0.7457
-# sportive : 0.5701
-
-# Mesure de Classification Accuracy (globale) : 0.7571
+# Indice AUC moins bon que pour les classifieurs C50 et SVM
 
 #----------------#
 #  Paramétrage 2
@@ -921,23 +907,9 @@ print(auc.nb_pred)
 
 # Résultats : 
 
-# Indice AUC : 0.9151
+# Indice AUC : 0.9142
 
-# Mesure de Rappel pour chaque classe (sensitivity) : 
-
-# citadine : 0.8658
-# luxe : 0.6277
-# routière : 0.7126
-# sportive : 0.6547
-
-# Mesure de Précision pour chaque classe (Pos pred value) : 
-
-# citadine : 0.8883
-# luxe : 0.6789
-# routière : 0.7409
-# sportive : 0.5701
-
-# Mesure de Classification Accuracy (globale) : 0.7555
+# Indice AUC moins bon que pour les classifieurs C50 et SVM
 
 #-----------------------------------------------------------#
 #  Evaluation du classifieur : Neural Networks
@@ -968,23 +940,25 @@ print(auc.nn_pred)
 
 # Résultats : 
 
-# Indice AUC : 0.9483
+# Indice AUC : 0.947
 
 # Mesure de Rappel pour chaque classe (sensitivity) : 
 
 # citadine : 0.9998
-# luxe : 0.9981
-# routière : 0.7215
-# sportive : 0.7957
+# luxe : 0.9445
+# routière : 0.7196
+# sportive : 0.7931
 
 # Mesure de Précision pour chaque classe (Pos pred value) : 
 
 # citadine : 1
-# luxe : 0.5906
-# routière : 0.8959
-# sportive : 0.6049
+# luxe : 0.6069
+# routière : 0.8913
+# sportive : 0.5927
 
-# Mesure de Classification Accuracy (globale) : 0.7589  
+# Mesure de Classification Accuracy (globale) : 8485  
+
+# Note : L'indice AUC varie de 0.9200 à 0.9470 quand on lance plusieurs fois l'apprentissage
 
 #----------------#
 #  Paramétrage 2
@@ -1012,14 +986,14 @@ print(auc.nn_pred)
 
 # Résultats : 
 
-# Indice AUC : 0.9492
+# Indice AUC : 0.9466
 
 # Mesure de Rappel pour chaque classe (sensitivity) : 
 
 # citadine : 0.9998
-# luxe : 0.99806
-# routière : 0.7215
-# sportive : 0.7957
+# luxe : 1.000
+# routière : 0.7192
+# sportive : 0.7932
 
 # Mesure de Précision pour chaque classe (Pos pred value) : 
 
@@ -1028,7 +1002,9 @@ print(auc.nn_pred)
 # routière : 0.8959
 # sportive : 0.6049
 
-# Mesure de Classification Accuracy (globale) : 0.7807 
+# Mesure de Classification Accuracy (globale) : 0.8498 
+
+# Note : L'indice AUC varie de 0.9200 à 0.9470 quand on lance plusieurs fois l'apprentissage
 
 
 #-----------------------------------------------------------#
@@ -1055,7 +1031,7 @@ print(auc.kknn_pred)
 
 # Résultats : 
 
-# Indice AUC : 0.9374
+# Indice AUC : 0.9361
 
 # Mesure de Rappel pour chaque classe (sensitivity) : 
 
@@ -1111,7 +1087,7 @@ print(auc.kknn_pred)
 
 # Mesure de Classification Accuracy (globale) : 0.8501 
 
-
+# Note : le temps d'apprentissage est long
 
 
 #------------------------------------------------------------------#
@@ -1119,15 +1095,15 @@ print(auc.kknn_pred)
 #------------------------------------------------------------------#
 
 
-# Modèle de prédiction choisi : tree_c50_4
+# Modèle de prédiction choisi : tree_c50_1
 
 
 # Classes prédites
-predictions_marketing <- predict(tree_C50_4, marketing, type="class")
+predictions_marketing <- predict(tree_C50_1, marketing, type="class")
 table(predictions_marketing)
 
 # Probabilités pour chaque classe prédite
-probabilites_marketing <- predict(tree_C50_4, marketing, type="prob")
+probabilites_marketing <- predict(tree_C50_1, marketing, type="prob")
 probabilites_marketing
 
 # Création d'un nouveau data frame avec les résultats
@@ -1136,7 +1112,7 @@ resultats_marketing <- data.frame(marketing, predictions_marketing, probabilites
 # Exportation des résultats dans un fichier csv
 write.table(
   resultats_marketing, 
-  file = "resultats_marketing.csv", 
+  file = "resultats_marketing_DL.csv", 
   sep = ";", 
   dec = ".",
   row.names = F)
