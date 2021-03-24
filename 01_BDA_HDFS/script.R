@@ -166,7 +166,7 @@ summary(catalogue$prix)
 
 # Test pour identifier la présence de doublons
 
-sum(duplicated(immatriculations))
+# sum(duplicated(immatriculations))
 
 # suppression des lignes dupliquées à l'aide de la librairie dplyr
 

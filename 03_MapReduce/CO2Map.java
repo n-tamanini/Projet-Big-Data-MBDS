@@ -30,39 +30,25 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
 		
 	protected void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 
-		if (value.toString().contains("Marque")){
+		if (value.toString().contains("Marque")){ // pour ne pas prendre en compte la première ligne (en-tête)
 			return;
 		}
 
-		String node = value.toString(); 
-		node = node.replaceAll("\\u00a0"," ");
+		String line = value.toString(); 
+		line = line.replaceAll("\\u00a0"," ");
 		
-		String[] splitted_node = node.split(","); 
-		String eu = "€";
-        char euChar = eu.charAt(0);
-		String esp = " ";
-        char espChar = esp.charAt(0);
+		String[] splitted_line = line.split(","); 
 
 		// Gestion colonne marque
 		String marque;
-		String[] splitted_space = splitted_node[1].split("\\s+"); 
-		marque = splitted_space[0]; //creation de la colonne marque
+		String[] splitted_space = splitted_line[1].split("\\s+"); 
+		marque = splitted_space[0];
 
-		char c = marque.charAt(0);
-		char[] marqueCharArray = marque.toCharArray();
-		char[] marqueChar = marque.toCharArray();
-
-		if (c=='"'){
-			int a=0;
-			for(int i=1;i<marqueCharArray.length;i++){
-				marqueChar[a]=marqueCharArray[i];
-				a++;
-			}
-			marque = String.valueOf(marqueChar);
-		}
+		if(marque == '"KIA'){return;}
+		marque = marque.replaceAll('"', "");
 
 		// Gestion colonne Malus/Bonus
-        String malus_bonus = splitted_node[2];
+        String malus_bonus = splitted_line[2];
 
 		if (malus_bonus.length() == 1){
 			malus_bonus="0"; 
@@ -72,7 +58,7 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
 
 		// Gestion colonne cout energie
         String cout;
- 	    cout = splitted_node[4];
+ 	    cout = splitted_line[4];
 		String[] cout_splitted = cout.split(" ");
 		if(cout_splitted.length == 2){  // ex : |967,€]
 			cout = cout_splitted[0];
@@ -81,7 +67,7 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
 		}
 
 		// Gestion colonne Rejet CO2
-		String rejet = splitted_node[3];
+		String rejet = splitted_line[3];
 
 		int malus_bonus_int = Integer.parseInt(malus_bonus);
 		int rejet_int = Integer.parseInt(rejet);
@@ -91,23 +77,5 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
 		String new_value = String.valueOf(malus_bonus_int) + "|" +  String.valueOf(rejet_int) + "|" + String.valueOf(cout_int);
 		
         context.write(new Text(marque), new Text(new_value));
-
-		
-
-
-/*    EXEMPLE DE M. SIMONIAN
-
-
-
-		String[] cols = value.toString().split(",");
-        String bonusMalus = cols[2];
-        bonusMalus = bonusMalus.replaceAll("\\u00a0", "").replace("€1", "").replace("€", "");
-        if (bonusMalus.equals("-") || bonusMalus.equals("Bonus / Malus")) return;
-        int bonusMalusInt = Integer.parseInt(bonusMalus);
-        context.write(new Text(String.valueOf(bonusMalusInt)), value);
-
-
-		*/
-	}
-	
+	}	
 }

@@ -247,7 +247,7 @@ summary(catalogue$PRIX)
 
 # Test pour identifier la présence de doublons
 
-sum(duplicated(immatriculations))
+#sum(duplicated(immatriculations))
 
 # suppression des lignes dupliquées à l'aide de la librairie dplyr
 
@@ -266,7 +266,7 @@ immatriculations$LONGUEUR <- ifelse(immatriculations$LONGUEUR=="tr¿longue", "tr
 
 # Test pour identifier la présence de doublons au sein des numéros d'immatriculations
 
-sum(duplicated(immatriculations$IMMATRICULATION))
+# sum(duplicated(immatriculations$IMMATRICULATION))
 
 # suppression des lignes dupliquées à l'aide de la librairie dplyr
 
@@ -833,23 +833,23 @@ print(auc.svm_pred)
 
 # Résultats : 
 
-# Indice AUC : 0.9479
+# Indice AUC : 0.947
 
 # Mesure de Rappel pour chaque classe (sensitivity) : 
 
 # citadine : 0.9998
 # luxe : 1
-# routière : 0.7216
-# sportive : 0.7957
+# routière : 0.7192
+# sportive : 0.7932
 
 # Mesure de Précision pour chaque classe (Pos pred value) : 
 
 # citadine : 1
-# luxe : 0.5906
-# routière : 0.8961
-# sportive : 0.6049
+# luxe : 0.5920
+# routière : 0.8970
+# sportive : 0.5945
 
-# Mesure de Classification Accuracy (globale) : 0.8513
+# Mesure de Classification Accuracy (globale) : 0.8498
 
 # Note : temps d'apprentissage très long 
 
