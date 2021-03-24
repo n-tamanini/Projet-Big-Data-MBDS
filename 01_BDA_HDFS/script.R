@@ -5,6 +5,10 @@
 #-----------------------------------------------------#
 
 
+# Les donn√©es d'entr√©e pour ce projet se situent dans l'archive data_group_1.zip
+setwd("C:/data_group_1")
+
+
 # Installation et activation des packages
 
 install.packages("ggplot2")
@@ -33,7 +37,9 @@ library(ROCR)
 library(pROC)
 library(caret)
 
-# Chargement des donnÈes CATALOGUE
+# Les donn√©es d'entr√©e pour ce projet se situent dans l'archive data_group_1.zip
+
+# Chargement des donn√©es CATALOGUE
 
 catalogue <- read.csv(
   "Catalogue.csv", 
@@ -42,7 +48,7 @@ catalogue <- read.csv(
   dec = "."
 )
 
-# Chargement des donnÈes IMMATRICULATIONS
+# Chargement des donn√©es IMMATRICULATIONS
 
 immatriculations <- read.csv(
   "Immatriculations.csv", 
@@ -51,7 +57,7 @@ immatriculations <- read.csv(
   dec = "."
 )
 
-# Chargement des donnÈes MARKETING
+# Chargement des donn√©es MARKETING
 
 marketing <- read.csv(
   "Marketing.csv", 
@@ -60,13 +66,13 @@ marketing <- read.csv(
   dec = "."
 )
 
-# Chargement des donnÈes CLIENTS_0
+# Chargement des donn√©es CLIENTS_0
 
 client <- read.csv("Clients_0.csv", header = TRUE, sep = ",", dec = ".")
 
 
 #--------------------------------------#
-#  1. Analyse exploratoire des donnÈes      
+#  1. Analyse exploratoire des donn√©es      
 #--------------------------------------#
 
 
@@ -74,17 +80,17 @@ client <- read.csv("Clients_0.csv", header = TRUE, sep = ",", dec = ".")
 #             CATALOGUE.CSV
 #--------------------------------------#
 
-# Test pour identifier la prÈsence de doublons
+# Test pour identifier la pr√©sence de doublons
 
 sum(duplicated(catalogue))
 
-# pas de lignes dupliquÈes 
+# pas de lignes dupliqu√©es 
 
 
 # Exploration visuelle du tableau de valeurs --> Pas de valeurs manquantes
 
 
-# VÈrification des contraintes de domaine 
+# V√©rification des contraintes de domaine 
 
 # Marque : Affichage des effectifs de la variable marque : 
 
@@ -93,14 +99,14 @@ table(catalogue$marque)
 # Pas de marque inconnue
 
 
-# Nom du vÈhicule : Affichage des effectifs de la variable nom : 
+# Nom du v√©hicule : Affichage des effectifs de la variable nom : 
 
 table(catalogue$nom)
 
 # Pas de nom inconnu
 
 
-# Puissance : affichage des statistiques ÈlÈmentaires de la variable puissance
+# Puissance : affichage des statistiques √©l√©mentaires de la variable puissance
 
 summary(catalogue$puissance)
 
@@ -111,7 +117,7 @@ summary(catalogue$puissance)
 
 table(catalogue$longueur)
 
-# Pas de catÈgorie de longueur inconnue
+# Pas de cat√©gorie de longueur inconnue
 
 
 # Nombre de places : histogramme des effectifs de la variable nbPlaces
@@ -142,11 +148,11 @@ table(catalogue$couleur)
 
 table(catalogue$occasion)
 
-# On a bien que des boolÈens
+# On a bien que des bool√©ens
 
 
 
-# Prix : affichage des statistiques ÈlÈmentaires de la variable prix
+# Prix : affichage des statistiques √©l√©mentaires de la variable prix
 
 summary(catalogue$prix)
 
@@ -158,35 +164,35 @@ summary(catalogue$prix)
 #--------------------------------------#
 
 
-# Test pour identifier la prÈsence de doublons
+# Test pour identifier la pr√©sence de doublons
 
 sum(duplicated(immatriculations))
 
-# suppression des lignes dupliquÈes ‡ l'aide de la librairie dplyr
+# suppression des lignes dupliqu√©es √† l'aide de la librairie dplyr
 
 immatriculations <- distinct(immatriculations)
 
 
 
 
-# VÈrification des contraintes de domaine 
+# V√©rification des contraintes de domaine 
 
 
 # immatriculation
 
-# Test pour identifier la prÈsence de doublons au sein des numÈros d'immatriculations
+# Test pour identifier la pr√©sence de doublons au sein des num√©ros d'immatriculations
 
 sum(duplicated(immatriculations$immatriculation))
 
-# suppression des lignes dupliquÈes ‡ l'aide de la librairie dplyr
+# suppression des lignes dupliqu√©es √† l'aide de la librairie dplyr
 
 immatriculations <- distinct(immatriculations, immatriculation, .keep_all = TRUE)
 
 
-# Format du numÈro d'immatriculation
+# Format du num√©ro d'immatriculation
 
-# On souhaite le format ¬´ 9999 AA 99 ¬ª qui comprend 10 caractËres
-# On supprime donc les lignes dont le numÈro d'immatriculation est infÈrieur ‡ 10 caractËres
+# On souhaite le format √Ç¬´ 9999 AA 99 √Ç¬ª qui comprend 10 caract√®res
+# On supprime donc les lignes dont le num√©ro d'immatriculation est inf√©rieur √† 10 caract√®res
 
 immatriculations <- immatriculations[str_count(immatriculations$immatriculation) == 10,]
 
@@ -198,7 +204,7 @@ table(immatriculations$marque)
 # Pas de marque inconnue
 
 
-# Nom du vÈhicule : Affichage des effectifs de la variable nom : 
+# Nom du v√©hicule : Affichage des effectifs de la variable nom : 
 
 table(immatriculations$nom)
 
@@ -206,7 +212,7 @@ table(immatriculations$nom)
 
 
 
-# Puissance : affichage des statistiques ÈlÈmentaires de la variable puissance
+# Puissance : affichage des statistiques √©l√©mentaires de la variable puissance
 
 summary(immatriculations$puissance)
 
@@ -217,7 +223,7 @@ summary(immatriculations$puissance)
 
 table(immatriculations$longueur)
 
-# Pas de catÈgorie de longueur inconnue
+# Pas de cat√©gorie de longueur inconnue
 
 
 # Nombre de places : histogramme des effectifs de la variable nbPlaces
@@ -248,11 +254,11 @@ table(immatriculations$couleur)
 
 table(immatriculations$occasion)
 
-# On a bien que des boolÈens
+# On a bien que des bool√©ens
 
 
 
-# Prix : affichage des statistiques ÈlÈmentaires de la variable prix
+# Prix : affichage des statistiques √©l√©mentaires de la variable prix
 
 summary(immatriculations$prix)
 
@@ -264,7 +270,7 @@ summary(immatriculations$prix)
 #--------------------------------------#
 
 
-#visualisation de donnÈes
+#visualisation de donn√©es
 summary(client)
 View(client)
 qplot(nbEnfantsAcharge, data=client)
@@ -289,45 +295,45 @@ qplot(nbEnfantsAcharge, data=client)
 # Remplacer les valeurs mal saisies au format F pour Femme et M pour Masculin
 client$sexe <- ifelse(client$sexe=="Masculin", "M", client$sexe)
 client$sexe <- ifelse(client$sexe=="Homme", "M", client$sexe)
-client$sexe <- ifelse(client$sexe=="FÈminin", "F", client$sexe)
+client$sexe <- ifelse(client$sexe=="F√©minin", "F", client$sexe)
 client$sexe <- ifelse(client$sexe=="Femme", "F", client$sexe)
 
 # Suppression des autres valeurs de sexe (autres que F et M)
 client <- subset(client, client$sexe == "F" | client$sexe == "M" )
 
 #   TRI SITUATION FAMILIALE
-# Mise en forme de la catÈgoie en: "En couple", "CÈlibataire", "DivorcÈe"
-client$situationFamiliale <- ifelse(client$situationFamiliale=="Seule", "CÈlibataire", client$situationFamiliale)
-client$situationFamiliale <- ifelse(client$situationFamiliale=="Seul", "CÈlibataire", client$situationFamiliale)
+# Mise en forme de la cat√©goie en: "En couple", "C√©libataire", "Divorc√©e"
+client$situationFamiliale <- ifelse(client$situationFamiliale=="Seule", "C√©libataire", client$situationFamiliale)
+client$situationFamiliale <- ifelse(client$situationFamiliale=="Seul", "C√©libataire", client$situationFamiliale)
 
-# Suppression des autres valeurs non listÈ dans la catÈgorie
-client <- subset(client, client$situationFamiliale == "CÈlibataire" | client$situationFamiliale == "DivorcÈe" | situationFamiliale == "En Couple")
+# Suppression des autres valeurs non list√© dans la cat√©gorie
+client <- subset(client, client$situationFamiliale == "C√©libataire" | client$situationFamiliale == "Divorc√©e" | situationFamiliale == "En Couple")
 
 # TRI X2EME.VOITURE
-#Accepte que les valeurs Ègale ‡ "tru" ou "false"
+#Accepte que les valeurs √©gale √† "tru" ou "false"
 client <- subset(client, client$X2eme.voiture  == "true" | client$X2eme.voiture  == "false")
 
 # TRI IMMATRICULATION
-# Garder que les plaques d'immatriculations de 10 charactËres
+# Garder que les plaques d'immatriculations de 10 charact√®res
 client <- client[str_count(client$immatriculation) == 10,]
 
-# Test pour identifier la prÈsence de doublons
+# Test pour identifier la pr√©sence de doublons
 sum(duplicated(client$immatriculation))
 
-# suppression des lignes dupliquÈes ‡ l'aide de la librairie dplyr
+# suppression des lignes dupliqu√©es √† l'aide de la librairie dplyr
 client <- distinct(client, immatriculation, .keep_all = TRUE)
 
 
 
 
 #-----------------------------------------------#
-#  2. Identification des catÈgories de vÈhicules      
+#  2. Identification des cat√©gories de v√©hicules      
 #-----------------------------------------------#
 
 
-# CrÈation de la colonne catÈgorie dans le data frame "catalogue"
+# Cr√©ation de la colonne cat√©gorie dans le data frame "catalogue"
 
-catalogue$categorie <- ifelse(catalogue$longueur == 'courte' | catalogue$longueur == 'moyenne' , 'citadine', 'routiËre')
+catalogue$categorie <- ifelse(catalogue$longueur == 'courte' | catalogue$longueur == 'moyenne' , 'citadine', 'routi√®re')
 
 catalogue$categorie[catalogue$puissance >= 350] <- 'sportive'
 
@@ -341,14 +347,14 @@ catalogue$categorie[catalogue$prix < 10000] <- 'low-cost'
 
 
 #---------------------------------------------------------------------------------#
-#  3. Application des catÈgories de vÈhicules dÈfinies au fichier immatriculations      
+#  3. Application des cat√©gories de v√©hicules d√©finies au fichier immatriculations      
 #---------------------------------------------------------------------------------#
 
 
 
-# CrÈation de la colonne catÈgorie dans le data frame "immatriculations"
+# Cr√©ation de la colonne cat√©gorie dans le data frame "immatriculations"
 
-immatriculations$categorie <- ifelse(immatriculations$longueur == 'courte' | immatriculations$longueur == 'moyenne' , 'citadine', 'routiËre')
+immatriculations$categorie <- ifelse(immatriculations$longueur == 'courte' | immatriculations$longueur == 'moyenne' , 'citadine', 'routi√®re')
 
 immatriculations$categorie[immatriculations$puissance >= 350] <- 'sportive'
 
@@ -360,7 +366,7 @@ immatriculations$categorie[immatriculations$prix < 10000] <- 'low-cost'
 
 
 #------------------------------------------------------------------------------------------------#
-#  4. Fusion des fichiers Clients.csv et Immatriculations.csv  --> crÈation du dataframe "ventes"
+#  4. Fusion des fichiers Clients.csv et Immatriculations.csv  --> cr√©ation du dataframe "ventes"
 #------------------------------------------------------------------------------------------------#
 
 
@@ -368,63 +374,63 @@ ventes <- inner_join(client, immatriculations, by= client$immatriculations)
 
 
 #-----------------------------------------------------------------------------------------------------#
-#  5. CrÈation d'un modËle de classification supervisÈe pour la prÈdiction de la catÈgorie de vÈhicules
+#  5. Cr√©ation d'un mod√®le de classification supervis√©e pour la pr√©diction de la cat√©gorie de v√©hicules
 #-----------------------------------------------------------------------------------------------------#
 
 
 #------------------------------------------------------------------------------------------------#
-#          DÈtermination des variables ‡ prendre en compte lors de l'apprentissage
+#          D√©termination des variables √† prendre en compte lors de l'apprentissage
 #------------------------------------------------------------------------------------------------#
 
 
-# On cherche ‡ dÈterminer les variables sur les clients ayant une influence sur la catÈgorie de vÈhicule qui leur a ÈtÈ vendue.
+# On cherche √† d√©terminer les variables sur les clients ayant une influence sur la cat√©gorie de v√©hicule qui leur a √©t√© vendue.
 
 # Visualisation age vs categorie
 qplot(age, data=ventes, color=categorie)
 qplot(age,categorie, data=ventes) + geom_jitter(height = 0.2, width = 0.2)
-#  Toutes les voitures sportives ont ÈtÈ vendues ‡ des personnes de 18 ‡ 60 ans.
-# Toutes les voitures de luxe ont ÈtÈ vendues ‡ des personnes de plus de 60 ans.
-# Les routiËres et les citadines se vendent de maniËre Ègale ‡ tout age
+#  Toutes les voitures sportives ont √©t√© vendues √† des personnes de 18 √† 60 ans.
+# Toutes les voitures de luxe ont √©t√© vendues √† des personnes de plus de 60 ans.
+# Les routi√®res et les citadines se vendent de mani√®re √©gale √† tout age
 # CCL : age est une variable importante.
 
 # Visualisation sexe vs categorie
 qplot(sexe, data=ventes, color=categorie)
 qplot(age, sexe, data=ventes, color=categorie) + geom_jitter(height = 0.3, width = 0.3)
-# La proportion de catÈgories vendues semble Ítre identique pour les deux sexes
+# La proportion de cat√©gories vendues semble √™tre identique pour les deux sexes
 # CCL : sexe est une variable peu importante.
 
 # Visualisation taux vs categorie
 qplot(taux, data = ventes, color=categorie)
-# La proportion de catÈgories vendues semble Ítre identique pour toutes les valeurs de taux.
+# La proportion de cat√©gories vendues semble √™tre identique pour toutes les valeurs de taux.
 # On remarque qu'un taux faible booste les ventes cependant.
 # CCL : taux est une variable peu importante.
 
 # Visualisation situationFamiliale vs categorie
 qplot(situationFamiliale, data = ventes, color=categorie)
-# On observe que la proportion de catÈgories vendues diffËre selon la situation familiale des clients.
-# Plus de citadines sont vendues aux cÈlibataires tandis que les personnes en couple prÈfËrent les routiËres ou les sportives.
+# On observe que la proportion de cat√©gories vendues diff√®re selon la situation familiale des clients.
+# Plus de citadines sont vendues aux c√©libataires tandis que les personnes en couple pr√©f√®rent les routi√®res ou les sportives.
 # CCL : situationFamiliale est une variable importante.
 
 # Visualisation nbEnfantsAcharge vs categorie
 qplot(nbEnfantsAcharge, data = ventes, color=categorie)
-# On observe que la proportion de catÈgories vendues diffËre selon le nombre d'enfants ‡ charge des clients.
-# Plus de citadines sont vendues aux clients ayant 0 enfant ‡ charge, 
-# plus routiËres sont vendues ‡ ceux ayant entre 1 et 2 enfants ‡ charge,
-# Les clients ayant de 3 ‡ 4 enfants ‡ charge prÈfËrent les sportives.
+# On observe que la proportion de cat√©gories vendues diff√®re selon le nombre d'enfants √† charge des clients.
+# Plus de citadines sont vendues aux clients ayant 0 enfant √† charge, 
+# plus routi√®res sont vendues √† ceux ayant entre 1 et 2 enfants √† charge,
+# Les clients ayant de 3 √† 4 enfants √† charge pr√©f√®rent les sportives.
 # CCL : nbEnfantsAcharge est une variable importante.
 
 # Visualisation X2eme.voiture vs categorie
 qplot(X2eme.voiture , data = ventes, color=categorie)
-# On observe que la proportion de catÈgories vendues diffËre selon si la voiture est une deuxiËme voiture.
-# Quand X2eme.voiture est ‡ false, les clients peuvent s'orienter sur des routiËres alors que quand X2eme.voiture
-# est ‡ true, la proportion de routiËres vendues est quasi nulle.
+# On observe que la proportion de cat√©gories vendues diff√®re selon si la voiture est une deuxi√®me voiture.
+# Quand X2eme.voiture est √† false, les clients peuvent s'orienter sur des routi√®res alors que quand X2eme.voiture
+# est √† true, la proportion de routi√®res vendues est quasi nulle.
 # CCL : X2eme.voiture est une variable importante.
 
 
-# CCL : Les prÈdicteurs de nos modËles seront les variables : age, situationFamiliale, nbEnfantsAcharge, X2eme.voiture
+# CCL : Les pr√©dicteurs de nos mod√®les seront les variables : age, situationFamiliale, nbEnfantsAcharge, X2eme.voiture
 
-# Note : on ne prend pas en compte les variables sur les vÈhicules (marque, puissance, nom, etc.) 
-# car elles sont dÈj‡ synthÈtisÈes et prises en compte par la variable de classe : catÈgorie
+# Note : on ne prend pas en compte les variables sur les v√©hicules (marque, puissance, nom, etc.) 
+# car elles sont d√©j√† synth√©tis√©es et prises en compte par la variable de classe : cat√©gorie
 
 
 #-----------------------------------------------------------#
@@ -435,7 +441,7 @@ qplot(X2eme.voiture , data = ventes, color=categorie)
 # On retire la colonne immatriculation de notre table car elle ne nous servira pas pour l'apprentissage
 ventes <- subset(ventes, select = -immatriculation)
 
-# On retire ensuite les colonnes que nous n'avons pas retenu lors de notre analyse prÈcÈdente.
+# On retire ensuite les colonnes que nous n'avons pas retenu lors de notre analyse pr√©c√©dente ainsi que les colonnes relatives aux sp√©cifications des v√©hicules.
 ventes <- subset(ventes, select = -sexe)
 ventes <- subset(ventes, select = -taux)
 ventes <- subset(ventes, select = -marque)
@@ -450,15 +456,15 @@ ventes <- subset(ventes, select = -prix)
 
 
 # On construit l'ensemble d'apprentissage ventes_EA et l'ensemble de test ventes_ET
-# comme suit (rÈpartition 2/3 , 1/3):
-# ventes_EA : sÈlection des 26318 premiËres lignes de produit.
-# ventes_ET : sÈlection des 13158 derniËres lignes de produit.
+# comme suit (r√©partition 2/3 , 1/3):
+# ventes_EA : s√©lection des 26318 premi√®res lignes de produit.
+# ventes_ET : s√©lection des 13158 derni√®res lignes de produit.
 
 ventes_EA <- ventes[1:26318,]
 
 ventes_ET <- ventes[26319:39476,]
 
-# On passe les attributs de type char en facteur (necessaire pour implÈmenter le classifieur C50)
+# On passe les attributs de type char en facteur (necessaire pour impl√©menter le classifieur C50)
 
 ventes_EA$categorie <- as.factor(ventes_EA$categorie)
 ventes_EA$X2eme.voiture <- as.factor(ventes_EA$X2eme.voiture)
@@ -475,7 +481,7 @@ ventes_ET$situationFamiliale <- as.factor(ventes_ET$situationFamiliale)
 #-----------------------------------------------------------#
 #  Evaluation des classifieurs de type : 
 #  
-# - Arbre de dÈcision
+# - Arbre de d√©cision
 # - Random Forest
 # - Support Vector Machine
 # - Naive Bayes
@@ -485,17 +491,17 @@ ventes_ET$situationFamiliale <- as.factor(ventes_ET$situationFamiliale)
 
 
 #-----------------------------------------------------------#
-#  Evaluation du classifieur : Arbre de dÈcision
+#  Evaluation du classifieur : Arbre de d√©cision
 #-----------------------------------------------------------#
 
-    #----------------#
-    #  ParamÈtrage 1
-    #----------------#
+#----------------#
+#  Param√©trage 1
+#----------------#
 
-# Apprentissage du classifeur de type arbre de dÈcision
+# Apprentissage du classifeur de type arbre de d√©cision
 tree_C50_1 <- C5.0(categorie~., data = ventes_EA)
 
-# Test du classifieur : classe prÈdite
+# Test du classifieur : classe pr√©dite
 result.tree_C50_1 <- predict(tree_C50_1, ventes_ET, type="class")
 
 # Matrice de confusion (avec le package caret)
@@ -505,64 +511,64 @@ confusionMatrix(ventes_ET$categorie, result.tree_C50_1)
 p.tree_C50_1 <- predict(tree_C50_1, ventes_ET, type="prob")
 
 # Calcul de l'AUC
-# D'aprÈs la documentation du package pROC, la fonction multiclass.roc() construit plusieurs courbes ROC 
-# (une pour chaque couple de catÈgories possible. exemple : citadine/sportive ou encore routiÈre/citadine).
-# Ensuite, elle calcule l'indice AUC multiclasse selon la dÈfinition de (Hand and Till, 2001)
-# È partir des courbes ROC gÈnÈrÈes
+# D'apr√©s la documentation du package pROC, la fonction multiclass.roc() construit plusieurs courbes ROC 
+# (une pour chaque couple de cat√©gories possible. exemple : citadine/sportive ou encore routi√©re/citadine).
+# Ensuite, elle calcule l'indice AUC multiclasse selon la d√©finition de (Hand and Till, 2001)
+# √© partir des courbes ROC g√©n√©r√©es
 auc.predTree_C50_1 <- multiclass.roc(ventes_ET$categorie,p.tree_C50_1)
 print(auc.predTree_C50_1)
 
-# RÈsultats : 
+# R√©sultats : 
 
-  # Indice AUC : 0.9467
+# Indice AUC : 0.9467
 
-  # Mesure de Rappel pour chaque classe (sensitivity) : 
-    
-    # citadine : 0.9998
-    # luxe : 0.9981
-    # routiËre : 0.7215
-    # sportive : 0.7957
-  
-  # Mesure de PrÈcision pour chaque classe (Pos pred value) : 
-    
-    # citadine : 1
-    # luxe : 0.5906
-    # routiËre : 0.8959
-    # sportive : 0.6049
-  
-  # Mesure de Classification Accuracy (globale) : 0.8513
+# Mesure de Rappel pour chaque classe (sensitivity) : 
 
-  
-    #----------------#
-    #  ParamÈtrage 2
-    #----------------#
+# citadine : 0.9998
+# luxe : 0.9981
+# routi√®re : 0.7215
+# sportive : 0.7957
 
-# On essaie d'appliquer le paramËtre "rules = TRUE". On obtiendra, aprËs l'exÈcution de la ligne suivante, 
-# un set de rËgles au lieu d'un arbre de dÈcision.
+# Mesure de Pr√©cision pour chaque classe (Pos pred value) : 
+
+# citadine : 1
+# luxe : 0.5906
+# routi√®re : 0.8959
+# sportive : 0.6049
+
+# Mesure de Classification Accuracy (globale) : 0.8513
+
+
+#----------------#
+#  Param√©trage 2
+#----------------#
+
+# On essaie d'appliquer le param√®tre "rules = TRUE". On obtiendra, apr√®s l'ex√©cution de la ligne suivante, 
+# un set de r√®gles au lieu d'un arbre de d√©cision.
 
 tree_C50_2 <- C5.0(categorie~., data = ventes_EA, rules = TRUE)
 summary(tree_C50_2)
-  
+
 result.tree_C50_2 <- predict(tree_C50_2, ventes_ET, type="class")
 confusionMatrix(ventes_ET$categorie, result.tree_C50_2)
 p.tree_C50_2 <- predict(tree_C50_2, ventes_ET, type="prob")
 auc.predTree_C50_2 <- multiclass.roc(ventes_ET$categorie,p.tree_C50_2)
 print(auc.predTree_C50_2)
 
-# RÈsultats : 
+# R√©sultats : 
 
-  # Indice AUC : 0.8526
+# Indice AUC : 0.8526
 
 
 # Conclusion : Avec "rules = TRUE", l'indice AUC est moins bon.
-  
 
-    #----------------#
-    #  ParamÈtrage 3
-    #----------------#
 
-# On essaie d'appliquer le paramËtre "trials = n" qui dÈfinit le nombre d'opÈrations
-# de boosting lors de l'apprentissage (par dÈfaut, trials = 1)
+#----------------#
+#  Param√©trage 3
+#----------------#
+
+# On essaie d'appliquer le param√®tre "trials = n" qui d√©finit le nombre d'op√©rations
+# de boosting lors de l'apprentissage (par d√©faut, trials = 1)
 
 tree_C50_3 <- C5.0(categorie~., data = ventes_EA, trials = 10)
 
@@ -572,35 +578,35 @@ p.tree_C50_3 <- predict(tree_C50_3, ventes_ET, type="prob")
 auc.predTree_C50_3 <- multiclass.roc(ventes_ET$categorie,p.tree_C50_3)
 print(auc.predTree_C50_3)
 
-# RÈsultats : 
+# R√©sultats : 
 
-  # Indice AUC : 0.9372
-  
-  # Mesure de Rappel pour chaque classe (sensitivity) : 
-  
-    # citadine : 0.9121
-    # luxe : 0.5763
-    # routiËre : 0.7356
-    # sportive : 0.7941
-  
-  # Mesure de PrÈcision pour chaque classe (Pos pred value) : 
-  
-    # citadine : 1
-    # luxe : 0.9484
-    # routiËre : 0.7503
-    # sportive : 0.4836
-  
-  # Mesure de Classification Accuracy (globale) : 0.8001
+# Indice AUC : 0.9372
 
+# Mesure de Rappel pour chaque classe (sensitivity) : 
 
-# Conclusion : Tous les rÈsultats sont moins bons que ceux obtenus avec le paramÈtrage par dÈfaut (tree_c50_1).
+# citadine : 0.9121
+# luxe : 0.5763
+# routi√®re : 0.7356
+# sportive : 0.7941
+
+# Mesure de Pr√©cision pour chaque classe (Pos pred value) : 
+
+# citadine : 1
+# luxe : 0.9484
+# routi√®re : 0.7503
+# sportive : 0.4836
+
+# Mesure de Classification Accuracy (globale) : 0.8001
 
 
-    #----------------#
-    #  ParamÈtrage 4
-    #----------------#
+# Conclusion : Tous les r√©sultats sont moins bons que ceux obtenus avec le param√©trage par d√©faut (tree_c50_1).
 
-# On essaie de combiner les paramËtres rules et trials 
+
+#----------------#
+#  Param√©trage 4
+#----------------#
+
+# On essaie de combiner les param√®tres rules et trials 
 
 tree_C50_4 <- C5.0(categorie~., data = ventes_EA, trials = 10, rules = TRUE)
 
@@ -610,44 +616,44 @@ p.tree_C50_4 <- predict(tree_C50_4, ventes_ET, type="prob")
 auc.predTree_C50_4 <- multiclass.roc(ventes_ET$categorie,p.tree_C50_4)
 print(auc.predTree_C50_4)
 
-# RÈsultats : 
+# R√©sultats : 
 
-  # Indice AUC : 0.9473
-  
-  # Mesure de Rappel pour chaque classe (sensitivity) : 
-  
-    # citadine : 0.9998
-    # luxe : 0.9519
-    # routiËre : 0.7227
-    # sportive : 0.7957
-  
-  # Mesure de PrÈcision pour chaque classe (Pos pred value) : 
-    
-    # citadine : 1
-    # luxe : 0.6124
-    # routiËre : 0.8899
-    # sportive : 0.6049
-  
-  # Mesure de Classification Accuracy (globale) : 0.8507
+# Indice AUC : 0.9473
+
+# Mesure de Rappel pour chaque classe (sensitivity) : 
+
+# citadine : 0.9998
+# luxe : 0.9519
+# routi√®re : 0.7227
+# sportive : 0.7957
+
+# Mesure de Pr√©cision pour chaque classe (Pos pred value) : 
+
+# citadine : 1
+# luxe : 0.6124
+# routi√®re : 0.8899
+# sportive : 0.6049
+
+# Mesure de Classification Accuracy (globale) : 0.8507
 
 
-# Conclusion : L'indice AUC est lÈgËrement supÈrieur ‡ celui obtenu avec le paramÈtrage 1 
-# et les autres rÈsultats sont sensiblement identiques ‡ ceux obtenus avec le paramÈtrage 1.
-# On peut alors retenir le paramÈtrage 4 (tree_c50_4) pour l'arbre de dÈcision de type C50.
+# Conclusion : L'indice AUC est l√©g√®rement sup√©rieur √† celui obtenu avec le param√©trage 1 
+# et les autres r√©sultats sont sensiblement identiques √† ceux obtenus avec le param√©trage 1.
+# On peut alors retenir le param√©trage 4 (tree_c50_4) pour l'arbre de d√©cision de type C50.
 
 
 #-----------------------------------------------------------#
 #  Evaluation du classifieur : Random Forest
 #-----------------------------------------------------------#
 
-    #----------------#
-    #  ParamÈtrage 1
-    #----------------#
+#----------------#
+#  Param√©trage 1
+#----------------#
 
 # Apprentissage du classifeur de type foret aleatoire 
 rf_1 <- randomForest(categorie~., ventes_EA)
 
-# Test du classifieur : classe prÈdite 
+# Test du classifieur : classe pr√©dite 
 rf_class_1 <- predict(rf_1,ventes_ET, type="response")
 
 # Matrice de confusion 
@@ -663,34 +669,34 @@ rf_prob_1 <- as.data.frame(rf_prob_1)
 auc.rf_pred_1 <- multiclass.roc(ventes_ET$categorie, rf_prob_1)
 print(auc.rf_pred_1)
 
-# RÈsultats : 
+# R√©sultats : 
 
-  # Indice AUC : 0.9106
-  
-  # Mesure de Rappel pour chaque classe (sensitivity) : 
-    
-    # citadine : 0.9998
-    # luxe : 0.9981
-    # routiËre : 0.7215
-    # sportive : 0.7957
-  
-  # Mesure de PrÈcision pour chaque classe (Pos pred value) : 
-  
-    # citadine : 1
-    # luxe : 0.5906
-    # routiËre : 0.8959
-    # sportive : 0.6049
-  
-  # Mesure de Classification Accuracy (globale) : 0.8513
+# Indice AUC : 0.9106
+
+# Mesure de Rappel pour chaque classe (sensitivity) : 
+
+# citadine : 0.9998
+# luxe : 0.9981
+# routi√®re : 0.7215
+# sportive : 0.7957
+
+# Mesure de Pr√©cision pour chaque classe (Pos pred value) : 
+
+# citadine : 1
+# luxe : 0.5906
+# routi√®re : 0.8959
+# sportive : 0.6049
+
+# Mesure de Classification Accuracy (globale) : 0.8513
 
 
-    #----------------#
-    #  ParamÈtrage 2
-    #----------------#
+#----------------#
+#  Param√©trage 2
+#----------------#
 
-# On essaie de faire varier le nombre d'arbres dans la forÍt (ntree), le nombre de noeuds maximal de noeuds feuilles de l'arbre
-# (maxnodes) et l'effectif minimal des feuilles (nodesize). Par t‚tonnement, la combinaison la plus optimale de ces trois
-# paramËtres semble Ítre la suivante : 
+# On essaie de faire varier le nombre d'arbres dans la for√™t (ntree), le nombre de noeuds maximal de noeuds feuilles de l'arbre
+# (maxnodes) et l'effectif minimal des feuilles (nodesize). Par t√¢tonnement, la combinaison la plus optimale de ces trois
+# param√®tres semble √™tre la suivante : 
 
 rf_2 <- randomForest(categorie~., ventes_EA, maxnodes = 10, nodesize = 5, ntree = 600)
 
@@ -701,29 +707,29 @@ rf_prob_2 <- as.data.frame(rf_prob_2)
 auc.rf_pred_2 <- multiclass.roc(ventes_ET$categorie, rf_prob_2)
 print(auc.rf_pred_2)
 
-# RÈsultats : 
+# R√©sultats : 
 
-  # Indice AUC : 0.9162
-  
-  # Mesure de Rappel pour chaque classe (sensitivity) : 
-  
-    # citadine : 0.9998
-    # luxe : 0.9981
-    # routiËre : 0.7215
-    # sportive : 0.7957
-  
-  # Mesure de PrÈcision pour chaque classe (Pos pred value) : 
-    
-    # citadine : 1
-    # luxe : 0.5906
-    # routiËre : 0.8959
-    # sportive : 0.6049
-  
-  # Mesure de Classification Accuracy (globale) : 0.8513
+# Indice AUC : 0.9162
+
+# Mesure de Rappel pour chaque classe (sensitivity) : 
+
+# citadine : 0.9998
+# luxe : 0.9981
+# routi√®re : 0.7215
+# sportive : 0.7957
+
+# Mesure de Pr√©cision pour chaque classe (Pos pred value) : 
+
+# citadine : 1
+# luxe : 0.5906
+# routi√®re : 0.8959
+# sportive : 0.6049
+
+# Mesure de Classification Accuracy (globale) : 0.8513
 
 
-# Conclusion : l'indice AUC obtenu avec le paramÈtrage 2 est lÈgËrement meilleur que celui obtenu 
-# avec le paramÈtrage 1. Les autres rÈsultats sont identiques donc on peut retenir le paramÈtrage 2
+# Conclusion : l'indice AUC obtenu avec le param√©trage 2 est l√©g√®rement meilleur que celui obtenu 
+# avec le param√©trage 1. Les autres r√©sultats sont identiques donc on peut retenir le param√©trage 2
 # pour la classification de type Random Forest.
 
 
@@ -732,23 +738,23 @@ print(auc.rf_pred_2)
 #-----------------------------------------------------------#
 
 
-            #----------------#
-            #  ParamÈtrage 1
-            #----------------#
+#----------------#
+#  Param√©trage 1
+#----------------#
 
 # Apprentissage du classifeur de type svm
 svm <- svm(categorie~., ventes_EA, probability=TRUE, cost=12)
 
-# Test du classifieur : classe prÈdite
+# Test du classifieur : classe pr√©dite
 result.svm <- predict(svm, ventes_ET, type="response")
 
 # Matrice de confus
 confusionMatrix(ventes_ET$categorie, result.svm)
 
-# Test du classifieur : probabilitÈs pour chaque prÈdiction
+# Test du classifieur : probabilit√©s pour chaque pr√©diction
 svm_prob <- predict(svm, ventes_ET, probability=TRUE)
 
-# Recuperation des probabilitÈs associÈes aux prÈdictions
+# Recuperation des probabilit√©s associ√©es aux pr√©dictions
 svm_prob <- attr(svm_prob, "probabilities")
 
 # Conversion en un data frame  
@@ -758,47 +764,47 @@ svm_prob <- as.data.frame (svm_prob)
 auc.svm_pred <- multiclass.roc(ventes_ET$categorie, svm_prob)
 print(auc.svm_pred)
 
-# RÈsultats : 
+# R√©sultats : 
 
-  # Indice AUC : 0.9475
-  
-  # Mesure de Rappel pour chaque classe (sensitivity) : 
-  
-    # citadine : 0.9998
-    # luxe : 1
-    # routiËre : 0.7217
-    # sportive : 0.7957
-  
-  # Mesure de PrÈcision pour chaque classe (Pos pred value) : 
-  
-    # citadine : 1
-    # luxe : 0.5906
-    # routiËre : 0.8961
-    # sportive : 0.6049
-  
-  # Mesure de Classification Accuracy (globale) : 0.8513
+# Indice AUC : 0.9475
 
-  # Note : temps d'apprentissage trËs long 
+# Mesure de Rappel pour chaque classe (sensitivity) : 
+
+# citadine : 0.9998
+# luxe : 1
+# routi√®re : 0.7217
+# sportive : 0.7957
+
+# Mesure de Pr√©cision pour chaque classe (Pos pred value) : 
+
+# citadine : 1
+# luxe : 0.5906
+# routi√®re : 0.8961
+# sportive : 0.6049
+
+# Mesure de Classification Accuracy (globale) : 0.8513
+
+# Note : temps d'apprentissage tr√®s long 
 
 
-              #----------------#
-              #  ParamÈtrage 2
-              #----------------#
+#----------------#
+#  Param√©trage 2
+#----------------#
 
 
 # Apprentissage du classifeur de type svm
 svm <- svm(categorie~., ventes_EA, probability=TRUE, cost=18)
 
-# Test du classifieur : classe prÈdite
+# Test du classifieur : classe pr√©dite
 result.svm <- predict(svm, ventes_ET, type="response")
 
 # Matrice de confus
 confusionMatrix(ventes_ET$categorie, result.svm)
 
-# Test du classifieur : probabilitÈs pour chaque prÈdiction
+# Test du classifieur : probabilit√©s pour chaque pr√©diction
 svm_prob <- predict(svm, ventes_ET, probability=TRUE)
 
-# Recuperation des probabilitÈs associÈes aux prÈdictions
+# Recuperation des probabilit√©s associ√©es aux pr√©dictions
 svm_prob <- attr(svm_prob, "probabilities")
 
 # Conversion en un data frame  
@@ -808,41 +814,41 @@ svm_prob <- as.data.frame (svm_prob)
 auc.svm_pred <- multiclass.roc(ventes_ET$categorie, svm_prob)
 print(auc.svm_pred)
 
-# RÈsultats : 
+# R√©sultats : 
 
-  # Indice AUC : 0.9479
-  
-  # Mesure de Rappel pour chaque classe (sensitivity) : 
-  
-    # citadine : 0.9998
-    # luxe : 1
-    # routiËre : 0.7216
-    # sportive : 0.7957
-  
-  # Mesure de PrÈcision pour chaque classe (Pos pred value) : 
-  
-    # citadine : 1
-    # luxe : 0.5906
-    # routiËre : 0.8961
-    # sportive : 0.6049
-  
-  # Mesure de Classification Accuracy (globale) : 0.8513
-  
-  # Note : temps d'apprentissage trËs long 
+# Indice AUC : 0.9479
+
+# Mesure de Rappel pour chaque classe (sensitivity) : 
+
+# citadine : 0.9998
+# luxe : 1
+# routi√®re : 0.7216
+# sportive : 0.7957
+
+# Mesure de Pr√©cision pour chaque classe (Pos pred value) : 
+
+# citadine : 1
+# luxe : 0.5906
+# routi√®re : 0.8961
+# sportive : 0.6049
+
+# Mesure de Classification Accuracy (globale) : 0.8513
+
+# Note : temps d'apprentissage tr√®s long 
 
 #-----------------------------------------------------------#
 #  Evaluation du classifieur : Naive Bayes
 #-----------------------------------------------------------#
 
 
-          #----------------#
-          #  ParamÈtrage 1
-          #----------------#
+#----------------#
+#  Param√©trage 1
+#----------------#
 
 # Apprentissage du classifeur de type Naive Bayes
 nb <- naive_bayes(categorie~., ventes_EA, laplace=12)
 
-# Test du classifieur : classe prÈdite 
+# Test du classifieur : classe pr√©dite 
 nb_class <- predict(nb,ventes_ET, type="class")
 
 # Matrice de confusion 
@@ -855,35 +861,35 @@ nb_prob <- predict(nb, ventes_ET, type="prob")
 auc.nb_pred <- multiclass.roc(ventes_ET$categorie, nb_prob)
 print(auc.nb_pred)
 
-# RÈsultats : 
+# R√©sultats : 
 
-  # Indice AUC : 0.9154
-  
-  # Mesure de Rappel pour chaque classe (sensitivity) : 
-    
-    # citadine : 0.8707
-    # luxe : 0.6778
-    # routiËre : 0.7125
-    # sportive : 0.6549
-  
-  # Mesure de PrÈcision pour chaque classe (Pos pred value) : 
-  
-    # citadine : 0.8883
-    # luxe : 0.6789
-    # routiËre : 0.7457
-    # sportive : 0.5701
-  
-  # Mesure de Classification Accuracy (globale) : 0.7571
+# Indice AUC : 0.9154
 
-        #----------------#
-        #  ParamÈtrage 2
-        #----------------#
+# Mesure de Rappel pour chaque classe (sensitivity) : 
+
+# citadine : 0.8707
+# luxe : 0.6778
+# routi√®re : 0.7125
+# sportive : 0.6549
+
+# Mesure de Pr√©cision pour chaque classe (Pos pred value) : 
+
+# citadine : 0.8883
+# luxe : 0.6789
+# routi√®re : 0.7457
+# sportive : 0.5701
+
+# Mesure de Classification Accuracy (globale) : 0.7571
+
+#----------------#
+#  Param√©trage 2
+#----------------#
 
 
 # Apprentissage du classifeur de type Naive Bayes
 nb <- naive_bayes(categorie~., ventes_EA, laplace=30)
 
-# Test du classifieur : classe prÈdite 
+# Test du classifieur : classe pr√©dite 
 nb_class <- predict(nb,ventes_ET, type="class")
 
 # Matrice de confusion 
@@ -896,33 +902,33 @@ nb_prob <- predict(nb, ventes_ET, type="prob")
 auc.nb_pred <- multiclass.roc(ventes_ET$categorie, nb_prob)
 print(auc.nb_pred)
 
-# RÈsultats : 
-  
-  # Indice AUC : 0.9151
-  
-  # Mesure de Rappel pour chaque classe (sensitivity) : 
-  
-    # citadine : 0.8658
-    # luxe : 0.6277
-    # routiËre : 0.7126
-    # sportive : 0.6547
-  
-  # Mesure de PrÈcision pour chaque classe (Pos pred value) : 
+# R√©sultats : 
 
-  # citadine : 0.8883
-  # luxe : 0.6789
-  # routiËre : 0.7409
-  # sportive : 0.5701
+# Indice AUC : 0.9151
+
+# Mesure de Rappel pour chaque classe (sensitivity) : 
+
+# citadine : 0.8658
+# luxe : 0.6277
+# routi√®re : 0.7126
+# sportive : 0.6547
+
+# Mesure de Pr√©cision pour chaque classe (Pos pred value) : 
+
+# citadine : 0.8883
+# luxe : 0.6789
+# routi√®re : 0.7409
+# sportive : 0.5701
 
 # Mesure de Classification Accuracy (globale) : 0.7555
 
 #-----------------------------------------------------------#
 #  Evaluation du classifieur : Neural Networks
 #-----------------------------------------------------------#
-        
-        #----------------#
-        #  ParamÈtrage 1
-        #----------------#
+
+#----------------#
+#  Param√©trage 1
+#----------------#
 
 # Apprentissage du classifeur de type nn
 nn <- nnet(categorie~., ventes_EA, size=12)
@@ -930,12 +936,12 @@ nn <- nnet(categorie~., ventes_EA, size=12)
 # Test du classifieur : classe predite
 result.nn <- predict(nn, ventes_ET, type="class")
 
-# On met les prÈdictions en facteur pour crÈer la matrice de confusion
+# On met les pr√©dictions en facteur pour cr√©er la matrice de confusion
 result.nn <- as.factor(result.nn)
 
 # Matrice de confusion
 confusionMatrix(ventes_ET$categorie, result.nn)
- 
+
 # Test du classifieur : probabilites pour chaque prediction
 nn_prob <- predict(nn, ventes_ET, type="raw")
 
@@ -943,29 +949,29 @@ nn_prob <- predict(nn, ventes_ET, type="raw")
 auc.nn_pred <- multiclass.roc(ventes_ET$categorie, nn_prob)
 print(auc.nn_pred)
 
-# RÈsultats : 
+# R√©sultats : 
 
-  # Indice AUC : 0.9483
+# Indice AUC : 0.9483
 
-  # Mesure de Rappel pour chaque classe (sensitivity) : 
-  
-    # citadine : 0.9998
-    # luxe : 0.9981
-    # routiËre : 0.7215
-    # sportive : 0.7957
-  
-  # Mesure de PrÈcision pour chaque classe (Pos pred value) : 
-  
-    # citadine : 1
-    # luxe : 0.5906
-    # routiËre : 0.8959
-    # sportive : 0.6049
-  
-  # Mesure de Classification Accuracy (globale) : 0.7589  
+# Mesure de Rappel pour chaque classe (sensitivity) : 
 
-            #----------------#
-            #  ParamÈtrage 2
-            #----------------#
+# citadine : 0.9998
+# luxe : 0.9981
+# routi√®re : 0.7215
+# sportive : 0.7957
+
+# Mesure de Pr√©cision pour chaque classe (Pos pred value) : 
+
+# citadine : 1
+# luxe : 0.5906
+# routi√®re : 0.8959
+# sportive : 0.6049
+
+# Mesure de Classification Accuracy (globale) : 0.7589  
+
+#----------------#
+#  Param√©trage 2
+#----------------#
 
 
 # Apprentissage du classifeur de type nn
@@ -974,7 +980,7 @@ nn <- nnet(categorie~., ventes_EA, size=18)
 # Test du classifieur : classe predite
 result.nn <- predict(nn, ventes_ET, type="class")
 
-# On met les prÈdictions en facteur pour crÈer la matrice de confusion
+# On met les pr√©dictions en facteur pour cr√©er la matrice de confusion
 result.nn <- as.factor(result.nn)
 
 # Matrice de confusion
@@ -987,130 +993,130 @@ nn_prob <- predict(nn, ventes_ET, type="raw")
 auc.nn_pred <- multiclass.roc(ventes_ET$categorie, nn_prob)
 print(auc.nn_pred)
 
-# RÈsultats : 
+# R√©sultats : 
 
-  # Indice AUC : 0.9492
-  
-  # Mesure de Rappel pour chaque classe (sensitivity) : 
-    
-    # citadine : 0.9998
-    # luxe : 0.99806
-    # routiËre : 0.7215
-    # sportive : 0.7957
-  
-  # Mesure de PrÈcision pour chaque classe (Pos pred value) : 
-  
-    # citadine : 1
-    # luxe : 0.5906
-    # routiËre : 0.8959
-    # sportive : 0.6049
-  
-  # Mesure de Classification Accuracy (globale) : 0.7807 
+# Indice AUC : 0.9492
+
+# Mesure de Rappel pour chaque classe (sensitivity) : 
+
+# citadine : 0.9998
+# luxe : 0.99806
+# routi√®re : 0.7215
+# sportive : 0.7957
+
+# Mesure de Pr√©cision pour chaque classe (Pos pred value) : 
+
+# citadine : 1
+# luxe : 0.5906
+# routi√®re : 0.8959
+# sportive : 0.6049
+
+# Mesure de Classification Accuracy (globale) : 0.7807 
 
 
 #-----------------------------------------------------------#
 #  Evaluation du classifieur : k-nearest neighbors
 #-----------------------------------------------------------#
 
-                #----------------#
-                #  ParamÈtrage 1
-                #----------------#
+#----------------#
+#  Param√©trage 1
+#----------------#
 
 
-# Apprentissage et test simultanÈs du classifeur de type k-nearest neighbors 
+# Apprentissage et test simultan√©s du classifeur de type k-nearest neighbors 
 kknn <- kknn(categorie~., ventes_EA, ventes_ET, k=12) 
 
 # Matrice de confusion 
 confusionMatrix(ventes_ET$categorie, kknn$fitted.values)
 
-# Conversion des probabilitÈs en data frame 
+# Conversion des probabilit√©s en data frame 
 kknn_prob <- as.data.frame(kknn$prob)
 
 # Calcul de l'AUC 
 auc.kknn_pred <- multiclass.roc(ventes_ET$categorie, kknn_prob)
 print(auc.kknn_pred)
 
-# RÈsultats : 
-  
-  # Indice AUC : 0.9374
-  
-  # Mesure de Rappel pour chaque classe (sensitivity) : 
-    
-      # citadine : 0.9998
-      # luxe : 0.8086
-      # routiËre : 0.7071
-      # sportive : 0.7279
-  
-  # Mesure de PrÈcision pour chaque classe (Pos pred value) : 
-  
-      # citadine : 1
-      # luxe : 0.6640
-      # routiËre : 0.8207
-      # sportive : 0.5915
-  
-  # Mesure de Classification Accuracy (globale) : 0.7489
+# R√©sultats : 
 
-              #----------------#
-              #  ParamÈtrage 2
-              #----------------#
+# Indice AUC : 0.9374
+
+# Mesure de Rappel pour chaque classe (sensitivity) : 
+
+# citadine : 0.9998
+# luxe : 0.8086
+# routi√®re : 0.7071
+# sportive : 0.7279
+
+# Mesure de Pr√©cision pour chaque classe (Pos pred value) : 
+
+# citadine : 1
+# luxe : 0.6640
+# routi√®re : 0.8207
+# sportive : 0.5915
+
+# Mesure de Classification Accuracy (globale) : 0.7489
+
+#----------------#
+#  Param√©trage 2
+#----------------#
 
 
-# Apprentissage et test simultanÈs du classifeur de type k-nearest neighbors 
+# Apprentissage et test simultan√©s du classifeur de type k-nearest neighbors 
 kknn <- kknn(categorie~., ventes_EA, ventes_ET, k=256) 
 
 # Matrice de confusion 
 confusionMatrix(ventes_ET$categorie, kknn$fitted.values)
 
-# Conversion des probabilitÈs en data frame 
+# Conversion des probabilit√©s en data frame 
 kknn_prob <- as.data.frame(kknn$prob)
 
 # Calcul de l'AUC 
 auc.kknn_pred <- multiclass.roc(ventes_ET$categorie, kknn_prob)
 print(auc.kknn_pred)
 
-# RÈsultats : 
+# R√©sultats : 
 
-  # Indice AUC : 0.9443
-  
-  # Mesure de Rappel pour chaque classe (sensitivity) : 
-  
-    # citadine : 0.9972
-    # luxe : 0.9980
-    # routiËre : 0.7220
-    # sportive : 0.7928
-  
-  # Mesure de PrÈcision pour chaque classe (Pos pred value) : 
-    
-    # citadine : 1
-    # luxe : 0.5814
-    # routiËre : 0.8943
-    # sportive : 0.6049
-  
-  # Mesure de Classification Accuracy (globale) : 0.8501 
+# Indice AUC : 0.9443
+
+# Mesure de Rappel pour chaque classe (sensitivity) : 
+
+# citadine : 0.9972
+# luxe : 0.9980
+# routi√®re : 0.7220
+# sportive : 0.7928
+
+# Mesure de Pr√©cision pour chaque classe (Pos pred value) : 
+
+# citadine : 1
+# luxe : 0.5814
+# routi√®re : 0.8943
+# sportive : 0.6049
+
+# Mesure de Classification Accuracy (globale) : 0.8501 
 
 
 
 
 #------------------------------------------------------------------#
-#  6. Application du modËle de prÈdiction au fichier Marketing.csv
+#  6. Application du mod√®le de pr√©diction au fichier Marketing.csv
 #------------------------------------------------------------------#
 
 
-# ModËle de prÈdiction choisi : tree_c50_4
+# Mod√®le de pr√©diction choisi : tree_c50_4
 
 
-# Classes prÈdites
+# Classes pr√©dites
 predictions_marketing <- predict(tree_C50_4, marketing, type="class")
 table(predictions_marketing)
 
-# ProbabilitÈs pour chaque classe prÈdite
+# Probabilit√©s pour chaque classe pr√©dite
 probabilites_marketing <- predict(tree_C50_4, marketing, type="prob")
 probabilites_marketing
 
-# CrÈation d'un nouveau data frame avec les rÈsultats
+# Cr√©ation d'un nouveau data frame avec les r√©sultats
 resultats_marketing <- data.frame(marketing, predictions_marketing, probabilites_marketing)
 
-# Exportation des rÈsultats dans un fichier csv
+# Exportation des r√©sultats dans un fichier csv
 write.table(
   resultats_marketing, 
   file = "resultats_marketing.csv", 

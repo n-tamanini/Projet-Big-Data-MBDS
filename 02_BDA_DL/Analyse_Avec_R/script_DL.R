@@ -5,6 +5,10 @@
 #-----------------------------------------------------#
 
 
+# Les données d'entrée pour ce projet (notamment co2_resultat.txt ou Catalogue.csv) se situent dans l'archive data_group_1.zip
+setwd("C:/data_group_1")
+
+
 # Installation et activation des packages
 
 install.packages("ggplot2")
@@ -39,17 +43,19 @@ library(RODBC)
 #  Import des dataframes client, marketing, immatriculations, catalogue depuis une base de données ORACLE SQL      
 #------------------------------------------------------------------------------------------------------------#
 
-
-
+# Définition de la connexion entre R et la source de données ORCLBIGDATALITEVM_DNS pointant vers la base Oracle SQL de la machine virtuelle BigDataLite.
+# Voir le rapport - partie 4 - Chargement des données dans R pour des explications approfondies sur le DNS ORCLBIGDATALITEVM_DNS.
 connexion <- odbcConnect("ORCLBIGDATALITEVM_DNS", uid="GROUPE1_PROJET", pwd="GROUPE1_PROJET01", believeNRows=FALSE)
 
 marketing <- sqlQuery(connexion, 'SELECT * FROM marketing_ext ORDER BY CLIENTMARKETINGID')
 immatriculations <- sqlQuery(connexion, 'SELECT * FROM immatriculation_ext')
 client <- sqlQuery(connexion, 'SELECT * FROM client')
-
-
-#rm(catalogue)
 #catalogue <- sqlQuery(connexion, "SELECT * FROM catalogue_ext")
+
+# L'import de la table catalogue échoue à cause de l'erreur ORA-29275 partial multibyte character 
+# Par manque de temps, nous avons pas pu régler le problème et avons donc décidé d'importer le data frame catalogue directement depuis Catalogue.csv 
+
+# Les données d'entrée pour ce projet (notamment co2_resultat.txt ou Catalogue.csv) se situent dans l'archive data_group_1.zip
 
 catalogue <- read.csv(
   "Catalogue.csv", 
@@ -57,7 +63,6 @@ catalogue <- read.csv(
   sep = ",", 
   dec = "."
 )
-
 
 names(catalogue)[names(catalogue) == "marque"] <- "MARQUE"
 names(catalogue)[names(catalogue) == "nom"] <- "NOM"
@@ -69,14 +74,16 @@ names(catalogue)[names(catalogue) == "couleur"] <- "COULEUR"
 names(catalogue)[names(catalogue) == "occasion"] <- "OCCASION"
 names(catalogue)[names(catalogue) == "prix"] <- "PRIX"
 
-
-catalogue$MARQUE = toupper(catalogue$MARQUE)
-immatriculations$MARQUE = toupper(immatriculations$MARQUE)
-
 #--------------------------------------#
 #                 CO2     
 #--------------------------------------#
 
+# On met toutes les marques en majuscules pour correspondre aux marques présentes dans le fichier resultat_co2.txt issu du MapReduce.
+catalogue$MARQUE = toupper(catalogue$MARQUE)
+immatriculations$MARQUE = toupper(immatriculations$MARQUE)
+
+# Import du fichier co2_resultat.txt (issu du MapReduce)
+# Les données d'entrée pour ce projet (notamment co2_resultat.txt) se situent dans l'archive data_group_1.zip
 co2 <- read.delim(
   "co2_resultat.txt", 
   header = TRUE, 
@@ -84,15 +91,14 @@ co2 <- read.delim(
   dec = "."
 )
  
-
-#renameColonne
+# On nomme les colonnes du data frame co2
 colnames(co2) <- c("Marque","Bonus/Malus", "RejetCo2", "cout.energie")
 
-
+# On effectue la jointure entre les data frames catalogue et co2 par marque de véhicule 
 catalogue <- left_join(catalogue, co2, by = c("MARQUE" = "Marque"), copy = FALSE)
 
 View(catalogue)
-
+# Les colonnes "Marque","Bonus/Malus", "RejetCo2", "cout.energie" ont bien été ajoutées au catalogue
 
 
 
@@ -106,11 +112,8 @@ View(catalogue)
 #               CLIENTS
 #--------------------------------------#
 
-
-#visualisation de donn�es
-summary(client)
-View(client)
-qplot(NBENFANTSACHARGE, data=client)
+# Malgré le nettoyage de la table client sur Oracle SQL, nous avons remarqué qu'elle contenait des lignes incomplètes.
+# On a alors décidé de supprimer ces lignes incomplètes avec R.
 
 #    TRI AGE 
 # Accepter que les valeurs comprises entre 18 et 84.
@@ -132,26 +135,26 @@ qplot(NBENFANTSACHARGE, data=client)
 
 # Suppression des autres valeurs de sexe (autres que F et M)
 client <- subset(client, client$SEXE == "F" | client$SEXE == "M" )
+qplot(SEXE, data=client)
 
 #   TRI SITUATION FAMILIALE
 
-# Suppression des autres valeurs non list� dans la cat�gorie
+# Suppression des autres valeurs non listées dans la catégorie
 client <- subset(client, client$SITUATIONFAMILIALE == "Celibataire" | client$SITUATIONFAMILIALE == "En Couple")
 
 # TRI X2EME.VOITURE
-#Accepte que les valeurs �gale � "tru" ou "false"
+#Accepte que les valeurs égale à "true" ou "false"
 client <- subset(client, client$DEUXIEMEVOITURE  == "true" | client$DEUXIEMEVOITURE  == "false")
 
 # TRI IMMATRICULATION
-# Garder que les plaques d'immatriculations de 10 charact�res
+# Garder que les plaques d'immatriculations de 10 charactères
 client <- client[str_count(client$IMMATRICULATION) == 10,]
 
-# Test pour identifier la pr�sence de doublons
+# Test pour identifier la présence de doublons
 sum(duplicated(client$IMMATRICULATION))
 
-# suppression des lignes dupliqu�es � l'aide de la librairie dplyr
+# suppression des lignes dupliquées à l'aide de la librairie dplyr
 client <- distinct(client, IMMATRICULATION, .keep_all = TRUE)
-
 
 
 #--------------------------------------#
@@ -346,28 +349,12 @@ summary(immatriculations$PRIX)
 # Prix bien dans l'intervalle [7500,101300]
 
 
-
-
-#--------------------------------------#
-#               CLIENTS
-#--------------------------------------#
-
-
-#visualisation de données
-summary(client)
-View(client)
-qplot(NBENFANTSACHARGE, data=client)
-
-# Les données CLIENTS ont déjà été nettoyées dans ORACLE SQL
-
-
 #--------------------------------------#
 #             MARKETING
 #-------------------------------------
 
 # On retire la COLONNE CLIENTMARKETINGID
-
-marketing <- marketing[,-1] # On supprime la 1ere colonne
+marketing <- marketing[,-1]
 
 marketing <- subset(marketing, marketing$SEXE == "F" | marketing$SEXE == "M" )
 
@@ -383,6 +370,12 @@ marketing$SITUATIONFAMILIALE <- ifelse(marketing$SITUATIONFAMILIALE=="C¿libatai
 
 
 # Création de la colonne catégorie dans le data frame "catalogue"
+
+# Nous pouvons noter que nous n'allons pas prendre en compte les données issues du data frame co2.
+# La raison est que le fichier CO2.csv contenait uniquement des véhicules électriques, hybrides et des vans et ces véhicules sont tous des véhicules récents (2020).
+# Or, notre catalogue concerne des voitures thermiques datant d'avant 2006, sans véhicule électrique, hybride ni vans.
+# Ainsi, la comparaison des véhicules du fichier CO2 et de notre catalogue n'est pas pertinente en termes de rejet CO2,etc..   
+
 
 catalogue$categorie <- ifelse(catalogue$LONGUEUR == 'courte' | catalogue$LONGUEUR == 'moyenne' , 'citadine', 'routière')
 
@@ -492,7 +485,7 @@ qplot(DEUXIEMEVOITURE , data = ventes, color=categorie)
 # On retire la colonne immatriculation de notre table car elle ne nous servira pas pour l'apprentissage
 ventes <- subset(ventes, select = -IMMATRICULATION)
 
-# On retire ensuite les colonnes que nous n'avons pas retenu lors de notre analyse précédente.
+# On retire ensuite les colonnes que nous n'avons pas retenu lors de notre analyse précédente ainsi que les colonnes relatives aux spécifications des véhicules.
 ventes <- subset(ventes, select = -SEXE)
 ventes <- subset(ventes, select = -TAUX)
 ventes <- subset(ventes, select = -MARQUE)
@@ -565,29 +558,29 @@ p.tree_C50_1 <- predict(tree_C50_1, ventes_ET, type="prob")
 # D'aprés la documentation du package pROC, la fonction multiclass.roc() construit plusieurs courbes ROC 
 # (une pour chaque couple de catégories possible. exemple : citadine/sportive ou encore routiére/citadine).
 # Ensuite, elle calcule l'indice AUC multiclasse selon la définition de (Hand and Till, 2001)
-# é partir des courbes ROC générées
+# à partir des courbes ROC générées
 auc.predTree_C50_1 <- multiclass.roc(ventes_ET$categorie,p.tree_C50_1)
 print(auc.predTree_C50_1)
 
 # Résultats : 
 
-# Indice AUC : 0.9467
+# Indice AUC : 0.9463
 
 # Mesure de Rappel pour chaque classe (sensitivity) : 
 
 # citadine : 0.9998
-# luxe : 0.9981
-# routière : 0.7215
-# sportive : 0.7957
+# luxe : 1
+# routière : 0.7192
+# sportive : 0.7932
 
 # Mesure de Précision pour chaque classe (Pos pred value) : 
 
 # citadine : 1
-# luxe : 0.5906
-# routière : 0.8959
-# sportive : 0.6049
+# luxe : 0.5920
+# routière : 0.8970
+# sportive : 0.5945
 
-# Mesure de Classification Accuracy (globale) : 0.8513
+# Mesure de Classification Accuracy (globale) : 0.8498
 
 
 #----------------#
@@ -608,7 +601,7 @@ print(auc.predTree_C50_2)
 
 # Résultats : 
 
-# Indice AUC : 0.8526
+# Indice AUC : 0.8513
 
 
 # Conclusion : Avec "rules = TRUE", l'indice AUC est moins bon.
@@ -631,23 +624,23 @@ print(auc.predTree_C50_3)
 
 # Résultats : 
 
-# Indice AUC : 0.9372
+# Indice AUC : 0.9432
 
 # Mesure de Rappel pour chaque classe (sensitivity) : 
 
 # citadine : 0.9121
-# luxe : 0.5763
+# luxe : 1.000
 # routière : 0.7356
 # sportive : 0.7941
 
 # Mesure de Précision pour chaque classe (Pos pred value) : 
 
 # citadine : 1
-# luxe : 0.9484
-# routière : 0.7503
-# sportive : 0.4836
+# luxe : 0.5920
+# routière : 0.8915
+# sportive : 0.4754
 
-# Mesure de Classification Accuracy (globale) : 0.8001
+# Mesure de Classification Accuracy (globale) : 0.8219
 
 
 # Conclusion : Tous les résultats sont moins bons que ceux obtenus avec le paramétrage par défaut (tree_c50_1).
@@ -669,28 +662,28 @@ print(auc.predTree_C50_4)
 
 # Résultats : 
 
-# Indice AUC : 0.9473
+# Indice AUC : 0.9447
 
 # Mesure de Rappel pour chaque classe (sensitivity) : 
 
 # citadine : 0.9998
-# luxe : 0.9519
-# routière : 0.7227
-# sportive : 0.7957
+# luxe : 0.9568
+# routière : 0.7201
+# sportive : 0.7932
 
 # Mesure de Précision pour chaque classe (Pos pred value) : 
 
 # citadine : 1
-# luxe : 0.6124
-# routière : 0.8899
-# sportive : 0.6049
+# luxe : 0.6103
+# routière : 0.8915
+# sportive : 0.5945
 
-# Mesure de Classification Accuracy (globale) : 0.8507
+# Mesure de Classification Accuracy (globale) : 0.8492
 
 
-# Conclusion : L'indice AUC est légèrement supérieur à celui obtenu avec le paramétrage 1 
+# Conclusion : L'indice AUC est légèrement inférieur à celui obtenu avec le paramétrage 1 
 # et les autres résultats sont sensiblement identiques à ceux obtenus avec le paramétrage 1.
-# On peut alors retenir le paramétrage 4 (tree_c50_4) pour l'arbre de décision de type C50.
+# On peut alors retenir le paramétrage 1 (tree_c50_1) pour l'arbre de décision de type C50.
 
 
 #-----------------------------------------------------------#
@@ -722,23 +715,9 @@ print(auc.rf_pred_1)
 
 # Résultats : 
 
-# Indice AUC : 0.9106
+# Indice AUC : 0.9021
 
-# Mesure de Rappel pour chaque classe (sensitivity) : 
-
-# citadine : 0.9998
-# luxe : 0.9981
-# routière : 0.7215
-# sportive : 0.7957
-
-# Mesure de Précision pour chaque classe (Pos pred value) : 
-
-# citadine : 1
-# luxe : 0.5906
-# routière : 0.8959
-# sportive : 0.6049
-
-# Mesure de Classification Accuracy (globale) : 0.8513
+# Moins bon que C50
 
 
 #----------------#
@@ -760,28 +739,15 @@ print(auc.rf_pred_2)
 
 # Résultats : 
 
-# Indice AUC : 0.9162
+# Indice AUC : 0.9148
 
-# Mesure de Rappel pour chaque classe (sensitivity) : 
-
-# citadine : 0.9998
-# luxe : 0.9981
-# routière : 0.7215
-# sportive : 0.7957
-
-# Mesure de Précision pour chaque classe (Pos pred value) : 
-
-# citadine : 1
-# luxe : 0.5906
-# routière : 0.8959
-# sportive : 0.6049
-
-# Mesure de Classification Accuracy (globale) : 0.8513
+# Moins bon que C50
 
 
 # Conclusion : l'indice AUC obtenu avec le paramétrage 2 est légèrement meilleur que celui obtenu 
 # avec le paramétrage 1. Les autres résultats sont identiques donc on peut retenir le paramétrage 2
-# pour la classification de type Random Forest.
+# pour la classification de type Random Forest. Cependant, les deux indices AUC obtenus sont inférieurs à ceux obtenus avec
+# les classifieurs de type C50 donc on ne retiendra pas de classifieur de type Random Forest pour ce projet.
 
 
 #-----------------------------------------------------------#
@@ -817,23 +783,23 @@ print(auc.svm_pred)
 
 # Résultats : 
 
-# Indice AUC : 0.9475
+# Indice AUC : 0.9473
 
 # Mesure de Rappel pour chaque classe (sensitivity) : 
 
 # citadine : 0.9998
 # luxe : 1
-# routière : 0.7217
-# sportive : 0.7957
+# routière : 0.7192
+# sportive : 0.7932
 
 # Mesure de Précision pour chaque classe (Pos pred value) : 
 
 # citadine : 1
-# luxe : 0.5906
-# routière : 0.8961
-# sportive : 0.6049
+# luxe : 0.5920
+# routière : 0.8970
+# sportive : 0.5945
 
-# Mesure de Classification Accuracy (globale) : 0.8513
+# Mesure de Classification Accuracy (globale) : 0.8498
 
 # Note : temps d'apprentissage très long 
 
