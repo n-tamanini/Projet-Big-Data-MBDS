@@ -44,8 +44,19 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
 		String[] splitted_space = splitted_line[1].split("\\s+"); 
 		marque = splitted_space[0];
 
-		if(marque == '"KIA'){return;}
-		marque = marque.replaceAll('"', "");
+		char c = marque.charAt(0);
+		char[] marqueCharArray = marque.toCharArray();
+		char[] marqueChar = marque.toCharArray();
+
+		if (c=='"'){
+			int a=0;
+			for(int i=1;i<marqueCharArray.length;i++){
+				marqueChar[a]=marqueCharArray[i];
+				a++;
+			}
+			marque = String.valueOf(marqueChar);
+		}
+		if(marque=="KIAA"){return;}
 
 		// Gestion colonne Malus/Bonus
         String malus_bonus = splitted_line[2];
@@ -77,5 +88,5 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
 		String new_value = String.valueOf(malus_bonus_int) + "|" +  String.valueOf(rejet_int) + "|" + String.valueOf(cout_int);
 		
         context.write(new Text(marque), new Text(new_value));
-	}	
+	}
 }
