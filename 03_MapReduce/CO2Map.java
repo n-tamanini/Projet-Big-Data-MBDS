@@ -44,28 +44,21 @@ public class CO2Map extends Mapper<Object, Text, Text, Text> {
 		String[] splitted_space = splitted_line[1].split("\\s+"); 
 		marque = splitted_space[0];
 
-		char c = marque.charAt(0);
-		char[] marqueCharArray = marque.toCharArray();
-		char[] marqueChar = marque.toCharArray();
-
-		if (c=='"'){
-			int a=0;
-			for(int i=1;i<marqueCharArray.length;i++){
-				marqueChar[a]=marqueCharArray[i];
-				a++;
-			}
-			marque = String.valueOf(marqueChar);
-		}
-		if(marque=="KIAA"){return;}
+		marque = marque.replace("\"", "");
 
 		// Gestion colonne Malus/Bonus
         String malus_bonus = splitted_line[2];
 
+		malus_bonus = malus_bonus.replaceAll(" ", "").replace("€1", "").replace("€", "").replace("\"", "");
+
+		if (malus_bonus.equals("150kW(204ch)") || malus_bonus.equals("100kW(136ch)"))
+		{
+			return;
+		}
+
 		if (malus_bonus.length() == 1){
 			malus_bonus="0"; 
-		} else {
-			malus_bonus = malus_bonus.replaceAll(" ", "").replace("€1", "").replace("€", "");
-		}
+		} 
 
 		// Gestion colonne cout energie
         String cout;
